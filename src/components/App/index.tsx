@@ -1,26 +1,23 @@
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
- 
-import Navigation from '../Navigation';
-import LandingPage from '../Landing';
-import SignUpPage from '../SignUp';
-import SignInPage from '../SignIn';
-import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
-import AccountPage from '../Account';
-import AdminPage from '../Admin';
- 
-import { Routes } from '../../constants/routes';
- 
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import Navigation from "../Navigation";
+import LandingPage from "../Landing";
+import SignUpPage from "../SignUp";
+import SignInPage from "../SignIn";
+import PasswordForgetPage from "../PasswordForget";
+import HomePage from "../Home";
+import AccountPage from "../Account";
+import AdminPage from "../Admin";
+
+import { Routes } from "../../constants/routes";
+
 const App = () => (
   <Router>
     <div>
       <Navigation />
- 
+
       <hr />
- 
+
       <Route exact path={Routes.Landing} component={LandingPage} />
       <Route path={Routes.SignUp} component={SignUpPage} />
       <Route path={Routes.SignIn} component={SignInPage} />
@@ -31,5 +28,5 @@ const App = () => (
     </div>
   </Router>
 );
- 
+
 export default App;
