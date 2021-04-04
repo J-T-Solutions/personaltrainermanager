@@ -1,9 +1,13 @@
-import React from 'react';
- 
-const SignOut = () => (
+import { FirebaseContext } from "../Firebase";
+import { SignUpForm } from "./SignUpForm";
+
+const SignUpPage = () => (
   <div>
-    <h1>SignOut</h1>
+    <h1>SignUp</h1>
+    <FirebaseContext.Consumer>
+      {(firebase) => <SignUpForm firebase={firebase} />}
+    </FirebaseContext.Consumer>
   </div>
 );
- 
-export default SignOut;
+
+export default SignUpPage;
