@@ -14,6 +14,7 @@ import { Routes } from "../../constants/routes";
 const App = () => (
   <Router>
     <div>
+      <span>Sign in test</span>
       <Navigation />
 
       <hr />
