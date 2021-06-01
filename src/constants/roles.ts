@@ -1,1 +1,1 @@
-export enum Roles {}
+export const ADMIN = 'ADMIN';

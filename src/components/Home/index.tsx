@@ -1,9 +1,18 @@
-import React from 'react';
- 
-const Home = () => (
+import { withAuthorization, withEmailVerification } from '../Session';
+import { compose } from 'recompose';
+
+
+const HomePage = () => (
   <div>
-    <h1>Home</h1>
+    <h1>Home Page</h1>
+    <p>The Home Page is accessible by every signed in user.</p>
   </div>
 );
- 
-export default Home;
+
+const condition = (authUser:any) => !!authUser;
+
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+)(HomePage);
+  
