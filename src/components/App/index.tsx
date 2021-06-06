@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navigation from "../Navigation";
 import LandingPage from "../Landing";
@@ -9,8 +8,6 @@ import HomePage from "../Home";
 import AccountPage from "../Account";
 import AdminPage from "../Admin";
 import { Routes } from "../../constants/routes";
-import Firebase, { withFirebase } from '../Firebase';
-import { AuthUserContext, withAuthentication } from '../Session';
 
 const App = () => (
   <Router>
@@ -30,4 +27,4 @@ const App = () => (
   </Router>
 );
 
-export default withAuthentication(App);
+export default App;

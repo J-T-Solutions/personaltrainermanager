@@ -1,23 +1,25 @@
+import { Link } from "react-router-dom";
 
-import { Link } from 'react-router-dom';
+import SignOutButton from "../SignOut";
+import { Routes } from "../../constants/routes";
+import * as ROLES from "../../constants/roles";
+import { useAppSelector } from "../../hooks";
 
-import SignOutButton from '../SignOut';
-import { Routes } from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
+const Navigation = () => {
+  const authUser = useAppSelector((state) => state.authUser);
 
-import { AuthUserContext } from '../Session';
+  return (
+    <div>
+      {authUser ? (
+        <NavigationAuth authUser={authUser} />
+      ) : (
+        <NavigationNonAuth />
+      )}
+    </div>
+  );
+};
 
- 
-const Navigation = () => (
-  <div>
-    <AuthUserContext.Consumer>
-      { authUser => authUser ? ( <NavigationAuth authUser={authUser }/> ) : ( <NavigationNonAuth /> )}
-    </AuthUserContext.Consumer>
-    
-  </div>
-);
-
-const NavigationAuth = ({ authUser }:any) => (
+const NavigationAuth = ({ authUser }: any) => (
   <ul>
     <li>
       <Link to={Routes.Landing}>Landing</Link>
@@ -51,7 +53,6 @@ const NavigationNonAuth = () => (
       <Link to={Routes.SignUp}>Sign Up</Link>
     </li>
   </ul>
-  );
-  
- 
+);
+
 export default Navigation;
