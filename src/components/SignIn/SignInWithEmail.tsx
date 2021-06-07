@@ -2,7 +2,10 @@ import { useContext } from "react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useHistory } from "react-router-dom";
 
-import { setAuthUser } from "../../features/authentication/sessionSlice";
+import {
+  setAuthUser,
+  signInUser,
+} from "../../features/authentication/sessionSlice";
 import { useAppDispatch } from "../../hooks";
 import { FirebaseContext } from "../Firebase";
 import { Routes } from "../../constants/routes";
@@ -15,7 +18,7 @@ interface IFormValues {
 export const SignInForm = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const firebase = useContext(FirebaseContext);
+  // const firebase = useContext(FirebaseContext);
 
   return (
     <Formik
@@ -28,19 +31,10 @@ export const SignInForm = () => {
         { setSubmitting }: FormikHelpers<IFormValues>
       ) => {
         const { email, password } = values;
-        firebase &&
-          firebase
-            .doSignInWithEmailAndPassword(email, password)
-            .then((user) => {
-              // TODO: handle setSubmiting and route redirection properly in saga or thunk
-              dispatch(setAuthUser(user));
-              setSubmitting(false);
-              history.push(Routes.Home);
-            })
-            .catch((error) => {
-              // TODO: handle error case
-              console.error(error);
-            });
+        dispatch(signInUser({ email, password }));
+
+        // setSubmitting(false);
+        // history.push(Routes.Home);
       }}
     >
       <Form>

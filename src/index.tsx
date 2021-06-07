@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 import App from "./components/App";
 import "./index.css";
-import Firebase, { FirebaseContext } from "./components/Firebase";
+import { FirebaseContext, firebaseInstance } from "./components/Firebase";
 import reportWebVitals from "./reportWebVitals";
 
 import { store } from "./store";
@@ -13,7 +13,7 @@ import { store } from "./store";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <FirebaseContext.Provider value={new Firebase()}>
+      <FirebaseContext.Provider value={firebaseInstance}>
         <App />
       </FirebaseContext.Provider>
     </Provider>

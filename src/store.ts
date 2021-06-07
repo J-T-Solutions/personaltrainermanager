@@ -3,7 +3,7 @@ import sessionReducer from "./features/authentication/sessionSlice";
 
 export const store = configureStore({
   reducer: {
-    authUser: sessionReducer,
+    session: sessionReducer,
   },
 });
 

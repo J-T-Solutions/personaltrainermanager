@@ -1,6 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
-import 'firebase/database';
+import "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 class Firebase {
   public auth: app.auth.Auth;
-  public db: app.database.Database
+  public db: app.database.Database;
   public googleProvider: app.auth.GoogleAuthProvider;
   public facebookProvider: app.auth.FacebookAuthProvider;
   public emailAuthProvider: any;
@@ -27,9 +27,8 @@ class Firebase {
     this.auth = app.auth();
     this.db = app.database();
     this.actionCodeSettings = {
-      url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT
-    }
-
+      url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+    };
 
     this.googleProvider = new app.auth.GoogleAuthProvider();
     this.facebookProvider = new app.auth.FacebookAuthProvider();
@@ -52,14 +51,12 @@ class Firebase {
     this.auth.signInWithPopup(this.googleProvider);
 
   public doSignInWithFacebook = () =>
-  this.auth.signInWithPopup(this.facebookProvider);
+    this.auth.signInWithPopup(this.facebookProvider);
 
   public doSignOut = (): Promise<void> => this.auth.signOut();
 
   public doSendEmailVerification = () =>
-    this.auth.currentUser!.sendEmailVerification(this.actionCodeSettings)
-    
-
+    this.auth.currentUser!.sendEmailVerification(this.actionCodeSettings);
 
   public doPasswordReset = (email: string): Promise<void> =>
     this.auth.sendPasswordResetEmail(email);
@@ -70,36 +67,37 @@ class Firebase {
     }
   };
 
-    // *** Merge Auth and DB User API *** //
-  public onAuthUserListener = (next:any, fallback:any) =>
-    this.auth.onAuthStateChanged(authUser => {
+  // *** Merge Auth and DB User API *** //
+  public onAuthUserListener = (next: any, fallback: any) =>
+    this.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         this.user(authUser.uid)
-        .once('value')
-        .then(snapshot => {
-        const dbUser = snapshot.val();
-        // default empty roles
-        if (!dbUser.roles) {
-          dbUser.roles = {};
-        }
-        // merge auth and db user
-        authUser = {
-          uid: authUser?.uid,
-          email: authUser?.email,
-          emailVerified: authUser!.emailVerified,
-          providerData: authUser!.providerData,
-          ...dbUser,
-        };
-        next(authUser);
-        });
+          .once("value")
+          .then((snapshot) => {
+            const dbUser = snapshot.val();
+            // default empty roles
+            if (!dbUser.roles) {
+              dbUser.roles = {};
+            }
+            // merge auth and db user
+            authUser = {
+              uid: authUser?.uid,
+              email: authUser?.email,
+              emailVerified: authUser!.emailVerified,
+              providerData: authUser!.providerData,
+              ...dbUser,
+            };
+            next(authUser);
+          });
       } else {
-      fallback();
+        fallback();
       }
-  });
+    });
 
   // *** User API ***
-  user = (uid:string|number) => this.db.ref(`users/${uid}`);
-  users = () => this.db.ref('users')
+  user = (uid: string | number) => this.db.ref(`users/${uid}`);
+  users = () => this.db.ref("users");
 }
 
+export const firebaseInstance = new Firebase();
 export default Firebase;
