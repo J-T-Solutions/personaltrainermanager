@@ -21,10 +21,12 @@ export const SignUpForm: React.FC<IProps> = ({ firebase }) => {
   ) => {
     const { email, password } = values
     try {
+      // eslint-disable-next-line react/prop-types
       const authUser = await firebase?.doCreateUserWithEmailAndPassword(
         email,
         password,
       )
+      setSubmitting(false)
       console.log('###authUser', authUser)
     } catch (err) {
       console.error(err)
