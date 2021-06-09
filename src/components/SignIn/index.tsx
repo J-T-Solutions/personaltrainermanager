@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
@@ -13,7 +14,7 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 An account with an E-Mail address to this social account already exists. Try to login from this account instead and associate your social accounts on your personal account page.
 `
 
-const SignInPage = () => (
+const SignInPage: React.FC = () => (
   <div>
     <h1>SignIn</h1>
     <SignInForm />
@@ -32,12 +33,6 @@ interface IProps {
 
 interface GoogleState {
   error: { message: string } | null
-}
-
-type socialTypes = {
-  uid: string
-  displayName: string
-  email: string
 }
 
 class SignInGoogleBase extends Component<IProps, GoogleState> {

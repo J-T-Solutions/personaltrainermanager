@@ -1,5 +1,7 @@
-import { withAuthorization, withEmailVerification } from '../Session'
 import { compose } from 'recompose'
+import app from 'firebase/app'
+
+import { withAuthorization, withEmailVerification } from '../Session'
 
 const HomePage = () => (
   <div>
@@ -8,7 +10,7 @@ const HomePage = () => (
   </div>
 )
 
-const condition = (authUser: any) => !!authUser
+const condition = (authUser: app.auth.UserCredential) => !!authUser
 
 export default compose(
   withEmailVerification,

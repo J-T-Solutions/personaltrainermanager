@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -83,8 +86,8 @@ class Firebase {
             authUser = {
               uid: authUser?.uid,
               email: authUser?.email,
-              emailVerified: authUser!.emailVerified,
-              providerData: authUser!.providerData,
+              emailVerified: authUser?.emailVerified,
+              providerData: authUser?.providerData,
               ...dbUser,
             }
             next(authUser)

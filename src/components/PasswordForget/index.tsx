@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Firebase, { withFirebase } from '../Firebase'
 import { Routes } from '../../constants/routes'
 
-const PasswordForgetPage = () => (
+const PasswordForgetPage: React.FC = () => (
   <div>
     <h1>PasswordForget</h1>
     <PasswordForgetForm />
@@ -27,7 +27,7 @@ interface IState {
 
 class PasswordForgetFormBase extends Component<IProps, IState> {
   // Fix Any type
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props)
     this.state = { ...INITIAL_STATE }
   }
@@ -78,7 +78,7 @@ class PasswordForgetFormBase extends Component<IProps, IState> {
   }
 }
 
-const PasswordForgetLink = () => (
+const PasswordForgetLink: React.FC = () => (
   <p>
     <Link to={Routes.PasswordForget}>Forgot Password?</Link>
   </p>

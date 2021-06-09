@@ -7,8 +7,9 @@ import PasswordForgetPage from '../PasswordForget'
 import HomePage from '../Home'
 import AccountPage from '../Account'
 import { Routes } from '../../constants/routes'
+import React from 'react'
 
-const App = () => (
+const App: React.FC = () => (
   <Router>
     <div>
       <Navigation />

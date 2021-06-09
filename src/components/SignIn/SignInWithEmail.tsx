@@ -10,7 +10,7 @@ interface IFormValues {
   password: string
 }
 
-export const SignInForm = () => {
+export const SignInForm: React.FC = () => {
   const dispatch = useAppDispatch()
   const history = useHistory()
   // const firebase = useContext(FirebaseContext);

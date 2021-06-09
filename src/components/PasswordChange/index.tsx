@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react'
-import Firebase, { withFirebase } from '../Firebase'
+import { withFirebase } from '../Firebase'
 
 const INITIAL_STATE = {
   passwordOne: '',

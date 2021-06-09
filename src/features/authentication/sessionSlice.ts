@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { firebaseInstance } from '../../components/Firebase'
 import app from 'firebase/app'
 import { RootState } from '../../store'
+import { AuthUser } from '../../interfaces'
 
 export interface IUserState {
   authUser: app.auth.UserCredential | undefined | null
@@ -48,4 +49,5 @@ export const { setAuthUser, setUserLogOutState } = sessionSlice.actions
 
 export default sessionSlice.reducer
 
-export const selectAuthUser = (state: RootState) => state.session.authUser
+export const selectAuthUser = (state: RootState): AuthUser | undefined | null =>
+  state.session.authUser

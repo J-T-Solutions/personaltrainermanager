@@ -2,25 +2,17 @@ import { Link } from 'react-router-dom'
 
 import SignOutButton from '../SignOut'
 import { Routes } from '../../constants/routes'
-import * as ROLES from '../../constants/roles'
+
 import { useAppSelector } from '../../hooks'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 
-const Navigation = () => {
+const Navigation: React.FC = () => {
   const authUser = useAppSelector((state) => selectAuthUser(state))
 
-  return (
-    <div>
-      {authUser ? (
-        <NavigationAuth authUser={authUser} />
-      ) : (
-        <NavigationNonAuth />
-      )}
-    </div>
-  )
+  return <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
 }
 
-const NavigationAuth = ({ authUser }: any) => (
+const NavigationAuth: React.FC = () => (
   <ul>
     <li>
       <Link to={Routes.Landing}>Landing</Link>

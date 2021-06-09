@@ -1,17 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Routes } from '../../constants/routes'
 import Firebase from '../Firebase'
 import { withFirebase } from '../Firebase'
 import { compose } from 'recompose'
-import * as ROLES from '../../constants/roles'
 
-const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use'
-const ERROR_MSG_ACCOUNT_EXISTS = `
-An account with this E-Mail address already exists. Try to login with this account instead. If you think the account is already used from one of the social logins, try to sign-in with one of them. Afterward, associate your accounts on your personal account page.
-`
+// const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use'
+// const ERROR_MSG_ACCOUNT_EXISTS = `
+// An account with this E-Mail address already exists. Try to login with this account instead. If you think the account is already used from one of the social logins, try to sign-in with one of them. Afterward, associate your accounts on your personal account page.
+//`
 
-const SignUpPage = () => (
+const SignUpPage: React.FC = () => (
   <div>
     <h1>SignUp</h1>
     <SignUpForm />
@@ -50,37 +49,33 @@ class SignUpFormBase extends Component<IProps, IState> {
   }
 
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const { username, email, passwordOne, isAdmin } = this.state
-
-    const roles: { ADMIN?: string } = {}
-    if (isAdmin) {
-      roles[ROLES.ADMIN] = ROLES.ADMIN
-    }
-
-    this.props.firebase &&
-      this.props.firebase
-        .doCreateUserWithEmailAndPassword(email, passwordOne)
-        .then((authUser: any) => {
-          // Create a user in your Firebase realtime database
-          return this.props
-            .firebase!.user(authUser.user.uid)
-            .set({ username, email, roles })
-        })
-        .then(() => {
-          return this.props.firebase!.doSendEmailVerification()
-        })
-        .then(() => {
-          this.setState({ ...INITIAL_STATE })
-          this.props.history.push(Routes.Home)
-        })
-        .catch((error) => {
-          if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
-            error.message = ERROR_MSG_ACCOUNT_EXISTS
-          }
-
-          this.setState({ error })
-        })
-
+    // const { username, email, passwordOne, isAdmin } = this.state
+    // const roles: { ADMIN?: string } = {}
+    // if (isAdmin) {
+    //   roles[ROLES.ADMIN] = ROLES.ADMIN
+    // }
+    // this.props.firebase &&
+    //   this.props.firebase
+    //     .doCreateUserWithEmailAndPassword(email, passwordOne)
+    //     .then((authUser: AuthUser) => {
+    //       // Create a user in your Firebase realtime database
+    //       return this.props.firebase
+    //         .user(authUser.user.uid)
+    //         .set({ username, email, roles })
+    //     })
+    //     .then(() => {
+    //       return this.props.firebase?.doSendEmailVerification()
+    //     })
+    //     .then(() => {
+    //       this.setState({ ...INITIAL_STATE })
+    //       this.props.history.push(Routes.Home)
+    //     })
+    //     .catch((error) => {
+    //       if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+    //         error.message = ERROR_MSG_ACCOUNT_EXISTS
+    //       }
+    //       this.setState({ error })
+    //     })
     e.preventDefault()
   }
 
@@ -151,7 +146,7 @@ class SignUpFormBase extends Component<IProps, IState> {
   }
 }
 
-const SignUpLink = () => <p>{`Don't have an account?`}</p>
+const SignUpLink: React.FC = () => <p>{`Don't have an account?`}</p>
 
 const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase)
 

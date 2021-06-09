@@ -1,8 +1,8 @@
 import { withFirebase } from '../Firebase'
 
-//Do poprawy ANY
-const SignOutButton = ({ firebase }: any) => (
-  <button type="button" onClick={firebase.doSignOut}>
+// TODO: Implement dispatch of SignOut as redux thunk action
+const SignOutButton: React.FC = () => (
+  <button type="button" onClick={() => console.log('SignOut')}>
     Sign Out
   </button>
 )
