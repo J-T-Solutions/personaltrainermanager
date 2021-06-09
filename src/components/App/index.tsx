@@ -1,16 +1,12 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Navigation from "../Navigation";
-import LandingPage from "../Landing";
-import SignUpPage from "../SignUp";
-import SignInPage from "../SignIn";
-import PasswordForgetPage from "../PasswordForget";
-import HomePage from "../Home";
-import AccountPage from "../Account";
-import AdminPage from "../Admin";
-import { Routes } from "../../constants/routes";
-import Firebase, { withFirebase } from '../Firebase';
-import { AuthUserContext, withAuthentication } from '../Session';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Navigation from '../Navigation'
+import LandingPage from '../Landing'
+import SignUpPage from '../SignUp'
+import SignInPage from '../SignIn'
+import PasswordForgetPage from '../PasswordForget'
+import HomePage from '../Home'
+import AccountPage from '../Account'
+import { Routes } from '../../constants/routes'
 
 const App = () => (
   <Router>
@@ -25,9 +21,8 @@ const App = () => (
       <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
       <Route path={Routes.Home} component={HomePage} />
       <Route path={Routes.Account} component={AccountPage} />
-      <Route path={Routes.Admin} component={AdminPage} />
     </div>
   </Router>
-);
+)
 
-export default withAuthentication(App);
+export default App

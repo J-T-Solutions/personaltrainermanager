@@ -1,46 +1,46 @@
-import "react-app-polyfill/ie11";
-import { Formik, Field, Form, FormikHelpers } from "formik";
-import Firebase from "../Firebase";
+import 'react-app-polyfill/ie11'
+import { Formik, Field, Form, FormikHelpers } from 'formik'
+import Firebase from '../Firebase'
 
 interface Values {
-  userName: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+  userName: string
+  firstName: string
+  lastName: string
+  email: string
+  password: string
 }
 
 interface IProps {
-  firebase: Firebase | null;
+  firebase: Firebase | null
 }
 
 export const SignUpForm: React.FC<IProps> = ({ firebase }) => {
   const onFormSubmit = async (
     values: Values,
-    { setSubmitting }: FormikHelpers<Values>
+    { setSubmitting }: FormikHelpers<Values>,
   ) => {
-    const { email, password } = values;
+    const { email, password } = values
     try {
       const authUser = await firebase?.doCreateUserWithEmailAndPassword(
         email,
-        password
-      );
-      console.log("###authUser", authUser);
+        password,
+      )
+      console.log('###authUser', authUser)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   return (
     <div>
       <h1>Signup</h1>
       <Formik
         initialValues={{
-          userName: "",
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
+          userName: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
         }}
         onSubmit={onFormSubmit}
       >
@@ -73,5 +73,5 @@ export const SignUpForm: React.FC<IProps> = ({ firebase }) => {
         </Form>
       </Formik>
     </div>
-  );
-};
+  )
+}
