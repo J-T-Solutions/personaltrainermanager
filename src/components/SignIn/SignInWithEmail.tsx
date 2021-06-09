@@ -1,37 +1,32 @@
-import { useContext } from "react";
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import { useHistory } from "react-router-dom";
+import { useContext } from 'react'
+import { Field, Form, Formik, FormikHelpers } from 'formik'
+import { useHistory } from 'react-router-dom'
 
-import {
-  setAuthUser,
-  signInUser,
-} from "../../features/authentication/sessionSlice";
-import { useAppDispatch } from "../../hooks";
-import { FirebaseContext } from "../Firebase";
-import { Routes } from "../../constants/routes";
+import { signInUser } from '../../features/authentication/sessionSlice'
+import { useAppDispatch } from '../../hooks'
 
 interface IFormValues {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 export const SignInForm = () => {
-  const dispatch = useAppDispatch();
-  const history = useHistory();
+  const dispatch = useAppDispatch()
+  const history = useHistory()
   // const firebase = useContext(FirebaseContext);
 
   return (
     <Formik
       initialValues={{
-        password: "",
-        email: "",
+        password: '',
+        email: '',
       }}
       onSubmit={(
         values: IFormValues,
-        { setSubmitting }: FormikHelpers<IFormValues>
+        { setSubmitting }: FormikHelpers<IFormValues>,
       ) => {
-        const { email, password } = values;
-        dispatch(signInUser({ email, password }));
+        const { email, password } = values
+        dispatch(signInUser({ email, password }))
 
         // setSubmitting(false);
         // history.push(Routes.Home);
@@ -47,5 +42,5 @@ export const SignInForm = () => {
         <button type="submit">Submit</button>
       </Form>
     </Formik>
-  );
-};
+  )
+}

@@ -1,6 +1,6 @@
-import app from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
+import app from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -10,74 +10,74 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-};
+}
 
 class Firebase {
-  public auth: app.auth.Auth;
-  public db: app.database.Database;
-  public googleProvider: app.auth.GoogleAuthProvider;
-  public facebookProvider: app.auth.FacebookAuthProvider;
-  public emailAuthProvider: any;
-  public actionCodeSettings: any;
+  public auth: app.auth.Auth
+  public db: app.database.Database
+  public googleProvider: app.auth.GoogleAuthProvider
+  public facebookProvider: app.auth.FacebookAuthProvider
+  public emailAuthProvider: any
+  public actionCodeSettings: any
 
   constructor() {
-    app.initializeApp(firebaseConfig);
+    app.initializeApp(firebaseConfig)
 
-    this.emailAuthProvider = app.auth.EmailAuthProvider;
-    this.auth = app.auth();
-    this.db = app.database();
+    this.emailAuthProvider = app.auth.EmailAuthProvider
+    this.auth = app.auth()
+    this.db = app.database()
     this.actionCodeSettings = {
       url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
-    };
+    }
 
-    this.googleProvider = new app.auth.GoogleAuthProvider();
-    this.facebookProvider = new app.auth.FacebookAuthProvider();
+    this.googleProvider = new app.auth.GoogleAuthProvider()
+    this.facebookProvider = new app.auth.FacebookAuthProvider()
   }
 
   // *** Auth ***
   public doCreateUserWithEmailAndPassword = (
     email: string,
-    password: string
+    password: string,
   ): Promise<app.auth.UserCredential> =>
-    this.auth.createUserWithEmailAndPassword(email, password);
+    this.auth.createUserWithEmailAndPassword(email, password)
 
   public doSignInWithEmailAndPassword = (
     email: string,
-    password: string
+    password: string,
   ): Promise<app.auth.UserCredential> =>
-    this.auth.signInWithEmailAndPassword(email, password);
+    this.auth.signInWithEmailAndPassword(email, password)
 
   public doSignInWithGoogle = () =>
-    this.auth.signInWithPopup(this.googleProvider);
+    this.auth.signInWithPopup(this.googleProvider)
 
   public doSignInWithFacebook = () =>
-    this.auth.signInWithPopup(this.facebookProvider);
+    this.auth.signInWithPopup(this.facebookProvider)
 
-  public doSignOut = (): Promise<void> => this.auth.signOut();
+  public doSignOut = (): Promise<void> => this.auth.signOut()
 
   public doSendEmailVerification = () =>
-    this.auth.currentUser!.sendEmailVerification(this.actionCodeSettings);
+    this.auth.currentUser!.sendEmailVerification(this.actionCodeSettings)
 
   public doPasswordReset = (email: string): Promise<void> =>
-    this.auth.sendPasswordResetEmail(email);
+    this.auth.sendPasswordResetEmail(email)
 
   public doPasswordUpdate = (password: string): Promise<void> | undefined => {
     if (this.auth.currentUser) {
-      return this.auth.currentUser.updatePassword(password);
+      return this.auth.currentUser.updatePassword(password)
     }
-  };
+  }
 
   // *** Merge Auth and DB User API *** //
   public onAuthUserListener = (next: any, fallback: any) =>
     this.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         this.user(authUser.uid)
-          .once("value")
+          .once('value')
           .then((snapshot) => {
-            const dbUser = snapshot.val();
+            const dbUser = snapshot.val()
             // default empty roles
             if (!dbUser.roles) {
-              dbUser.roles = {};
+              dbUser.roles = {}
             }
             // merge auth and db user
             authUser = {
@@ -86,18 +86,18 @@ class Firebase {
               emailVerified: authUser!.emailVerified,
               providerData: authUser!.providerData,
               ...dbUser,
-            };
-            next(authUser);
-          });
+            }
+            next(authUser)
+          })
       } else {
-        fallback();
+        fallback()
       }
-    });
+    })
 
   // *** User API ***
-  user = (uid: string | number) => this.db.ref(`users/${uid}`);
-  users = () => this.db.ref("users");
+  user = (uid: string | number) => this.db.ref(`users/${uid}`)
+  users = () => this.db.ref('users')
 }
 
-export const firebaseInstance = new Firebase();
-export default Firebase;
+export const firebaseInstance = new Firebase()
+export default Firebase

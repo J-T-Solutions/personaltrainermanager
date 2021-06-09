@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import SignOutButton from "../SignOut";
-import { Routes } from "../../constants/routes";
-import * as ROLES from "../../constants/roles";
-import { useAppSelector } from "../../hooks";
-import { selectAuthUser } from "../../features/authentication/sessionSlice";
+import SignOutButton from '../SignOut'
+import { Routes } from '../../constants/routes'
+import * as ROLES from '../../constants/roles'
+import { useAppSelector } from '../../hooks'
+import { selectAuthUser } from '../../features/authentication/sessionSlice'
 
 const Navigation = () => {
-  const authUser = useAppSelector((state) => selectAuthUser(state));
+  const authUser = useAppSelector((state) => selectAuthUser(state))
 
   return (
     <div>
@@ -17,8 +17,8 @@ const Navigation = () => {
         <NavigationNonAuth />
       )}
     </div>
-  );
-};
+  )
+}
 
 const NavigationAuth = ({ authUser }: any) => (
   <ul>
@@ -35,7 +35,7 @@ const NavigationAuth = ({ authUser }: any) => (
       <SignOutButton />
     </li>
   </ul>
-);
+)
 
 const NavigationNonAuth = () => (
   <ul>
@@ -49,6 +49,6 @@ const NavigationNonAuth = () => (
       <Link to={Routes.SignUp}>Sign Up</Link>
     </li>
   </ul>
-);
+)
 
-export default Navigation;
+export default Navigation

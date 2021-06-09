@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import Firebase, { withFirebase } from '../Firebase';
-
+import React, { Component } from 'react'
+import Firebase, { withFirebase } from '../Firebase'
 
 const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   error: null,
-};
+}
 
 //Fix Any type
 interface IProps {
@@ -14,44 +13,41 @@ interface IProps {
 }
 
 interface IState {
-  passwordOne: string;
-  passwordTwo: string;
-  error: { message: string } | null;
-  [x:string]: string | { message: string } | null;
+  passwordOne: string
+  passwordTwo: string
+  error: { message: string } | null
+  [x: string]: string | { message: string } | null
 }
 
 class PasswordChangeForm extends Component<IProps, IState> {
-  
-  constructor(props:IProps) {
-    super(props);
-    this.state = { ...INITIAL_STATE };
+  constructor(props: IProps) {
+    super(props)
+    this.state = { ...INITIAL_STATE }
   }
 
-  onSubmit = (event:React.FormEvent<HTMLFormElement>) => {
-    const { passwordOne } = this.state;
+  onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const { passwordOne } = this.state
 
-      this.props.firebase
+    this.props.firebase
       .doPasswordUpdate(passwordOne)
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
+        this.setState({ ...INITIAL_STATE })
       })
-      .catch((error: { message:string }) => {
-        this.setState({ error });
-      });
-    
-    event.preventDefault();
-  };
+      .catch((error: { message: string }) => {
+        this.setState({ error })
+      })
 
-  onChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    event.preventDefault()
+  }
+
+  onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   render() {
+    const { passwordOne, passwordTwo, error } = this.state
 
-    const { passwordOne, passwordTwo, error } = this.state;
-
-    const isInvalid =
-    passwordOne !== passwordTwo || passwordOne === '';
+    const isInvalid = passwordOne !== passwordTwo || passwordOne === ''
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -72,10 +68,10 @@ class PasswordChangeForm extends Component<IProps, IState> {
         <button disabled={isInvalid} type="submit">
           Reset My Password
         </button>
-          {error && <p>{error.message}</p>}
+        {error && <p>{error.message}</p>}
       </form>
-    );
+    )
   }
 }
 
-export default withFirebase(PasswordChangeForm);
+export default withFirebase(PasswordChangeForm)
