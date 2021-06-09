@@ -1,9 +1,9 @@
-import { useContext } from 'react'
 import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { useHistory } from 'react-router-dom'
 
 import { signInUser } from '../../features/authentication/sessionSlice'
 import { useAppDispatch } from '../../hooks'
+import { Routes } from '../../constants/routes'
 
 interface IFormValues {
   email: string
@@ -28,8 +28,9 @@ export const SignInForm = () => {
         const { email, password } = values
         dispatch(signInUser({ email, password }))
 
-        // setSubmitting(false);
-        // history.push(Routes.Home);
+        // TODO: Move it to saga or thunk
+        setSubmitting(false)
+        history.push(Routes.Home)
       }}
     >
       <Form>
