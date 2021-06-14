@@ -7,23 +7,42 @@ import PasswordForgetPage from '../PasswordForget'
 import HomePage from '../Home'
 import AccountPage from '../Account'
 import { Routes } from '../../constants/routes'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { SignOutPage } from '../SignOut'
+import { firebaseInstance } from '../Firebase'
+import { useAppDispatch } from '../../hooks'
+import { setAuthUser } from '../../features/authentication/sessionSlice'
 
-const App: React.FC = () => (
-  <Router>
-    <div>
-      <Navigation />
+const App: React.FC = () => {
+  const dispatch = useAppDispatch()
 
-      <hr />
+  useEffect(() => {
+    firebaseInstance.auth.onAuthStateChanged((authUser: any) => {
+      if (authUser) {
+        dispatch(setAuthUser(authUser))
+      } else {
+        dispatch(setAuthUser(null))
+      }
+    })
+  }, [])
 
-      <Route exact path={Routes.Landing} component={LandingPage} />
-      <Route path={Routes.SignUp} component={SignUpPage} />
-      <Route path={Routes.SignIn} component={SignInPage} />
-      <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
-      <Route path={Routes.Home} component={HomePage} />
-      <Route path={Routes.Account} component={AccountPage} />
-    </div>
-  </Router>
-)
+  return (
+    <Router>
+      <div>
+        <Navigation />
+
+        <hr />
+
+        <Route exact path={Routes.Landing} component={LandingPage} />
+        <Route path={Routes.SignUp} component={SignUpPage} />
+        <Route path={Routes.SignIn} component={SignInPage} />
+        <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
+        <Route path={Routes.Home} component={HomePage} />
+        <Route path={Routes.Account} component={AccountPage} />
+        <Route path={Routes.SingOut} component={SignOutPage} />
+      </div>
+    </Router>
+  )
+}
 
 export default App

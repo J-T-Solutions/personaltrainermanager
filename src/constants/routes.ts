@@ -6,4 +6,5 @@ export enum Routes {
   Account = '/account',
   Admin = '/admin',
   PasswordForget = '/pw-forget',
+  SingOut = '/signout',
 }

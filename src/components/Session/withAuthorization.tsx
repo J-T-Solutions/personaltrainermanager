@@ -6,15 +6,6 @@ import { compose } from 'recompose'
 
 import AuthUserContext from './context'
 import { withFirebase } from '../Firebase'
-import { Routes } from '../../constants/routes'
-
-// interface IState extends RouteComponentProps{
-//   firebase: Firebase;
-// }
-
-// interface IProps{
-//   WithAuthorization: any;
-// }
 
 type AuthInterface = {
   uid: string
@@ -26,19 +17,6 @@ const withAuthorization = (condition: any) => (Component: React.FC) => {
   class WithAuthorization extends React.Component<any> {
     // Fix Any Type
     listener: any
-    componentDidMount() {
-      this.listener = this.props.firebase.onAuthUserListener(
-        (authUser: AuthInterface) => {
-          if (!condition(authUser)) {
-            this.props.history.push(Routes.SignIn)
-          }
-        },
-        () => this.props.history.push(Routes.SignIn),
-      )
-    }
-    componentWillUnmount() {
-      this.listener()
-    }
 
     render() {
       return (

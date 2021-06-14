@@ -1,8 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createBrowserHistory } from 'history'
 import { firebaseInstance } from '../../components/Firebase'
 import app from 'firebase/app'
 import { RootState } from '../../store'
 import { AuthUser } from '../../interfaces'
+import { Routes } from '../../constants/routes'
+
+const history = createBrowserHistory()
 
 export interface IUserState {
   authUser: app.auth.UserCredential | undefined | null
@@ -23,15 +27,30 @@ export const signInUser = createAsyncThunk(
       return user
     } catch (err) {
       console.log(err)
+    } finally {
+      history.push(Routes.Account)
     }
   },
 )
+
+export const signOutUser = createAsyncThunk('session/signOut', async () => {
+  try {
+    return await firebaseInstance.doSignOut()
+  } catch (err) {
+    console.log(err)
+  } finally {
+    history.push(Routes.SingOut)
+  }
+})
 
 const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setAuthUser: (state, action: PayloadAction<app.auth.UserCredential>) => {
+    setAuthUser: (
+      state,
+      action: PayloadAction<app.auth.UserCredential | null>,
+    ) => {
       state.authUser = action.payload
     },
     setUserLogOutState: (state) => {
@@ -39,9 +58,13 @@ const sessionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(signInUser.fulfilled, (state, action) => {
-      state.authUser = action.payload
-    })
+    builder
+      .addCase(signInUser.fulfilled, (state, action) => {
+        state.authUser = action.payload
+      })
+      .addCase(signOutUser.fulfilled, (state) => {
+        state.authUser = null
+      })
   },
 })
 

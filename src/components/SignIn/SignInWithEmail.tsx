@@ -12,14 +12,15 @@ interface IFormValues {
 
 export const SignInForm: React.FC = () => {
   const dispatch = useAppDispatch()
-  const history = useHistory()
-  // const firebase = useContext(FirebaseContext);
+
+  // const [email, setEmail] = useState('poczwar12@o2.pl')
+  // const [password, setPassword] = useState('P29oczwar')
 
   return (
     <Formik
       initialValues={{
-        password: '',
-        email: '',
+        password: 'P29oczwar',
+        email: 'poczwar12@o2.pl',
       }}
       onSubmit={(
         values: IFormValues,
@@ -30,15 +31,26 @@ export const SignInForm: React.FC = () => {
 
         // TODO: Move it to saga or thunk
         setSubmitting(false)
-        history.push(Routes.Home)
       }}
     >
       <Form>
         <label htmlFor="email">Last Name</label>
-        <Field id="email" name="email" placeholder="john@acme.com" />
+        <Field
+          autoComplete="off"
+          id="email"
+          name="email"
+          placeholder="john@acme.com"
+          // value="poczwar12@o2.pl"
+        />
 
         <label htmlFor="password">Email</label>
-        <Field id="password" name="password" type="password" />
+        <Field
+          autoComplete="off"
+          id="password"
+          name="password"
+          type="password"
+          // value="P29oczwar"
+        />
 
         <button type="submit">Submit</button>
       </Form>

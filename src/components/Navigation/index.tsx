@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
-
-import SignOutButton from '../SignOut'
 import { Routes } from '../../constants/routes'
 
 import { useAppSelector } from '../../hooks'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
+import { SignOutButton } from '../SignOut'
 
 const Navigation: React.FC = () => {
   const authUser = useAppSelector((state) => selectAuthUser(state))
@@ -40,6 +39,7 @@ const NavigationNonAuth = () => (
     <li>
       <Link to={Routes.SignUp}>Sign Up</Link>
     </li>
+    <li></li>
   </ul>
 )
 
