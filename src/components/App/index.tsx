@@ -17,11 +17,14 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    firebaseInstance.auth.onAuthStateChanged((authUser: any) => {
+    const listener = firebaseInstance.onAuthUserListener((authUser) => {
       if (authUser) {
         dispatch(setAuthUser(authUser))
       } else {
         dispatch(setAuthUser(null))
+      }
+      return function cleanup() {
+        listener()
       }
     })
   }, [])

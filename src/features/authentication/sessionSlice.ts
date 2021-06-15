@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createBrowserHistory } from 'history'
 import { firebaseInstance } from '../../components/Firebase'
-import app from 'firebase/app'
 import { RootState } from '../../store'
 import { AuthUser } from '../../interfaces'
 import { Routes } from '../../constants/routes'
@@ -9,7 +8,7 @@ import { Routes } from '../../constants/routes'
 const history = createBrowserHistory()
 
 export interface IUserState {
-  authUser: app.auth.UserCredential | undefined | null
+  authUser: AuthUser | null
 }
 
 const initialState: IUserState = {
@@ -20,7 +19,7 @@ export const signInUser = createAsyncThunk(
   'session/signIn',
   async (userCredentials: { email: string; password: string }) => {
     try {
-      const user = await firebaseInstance.doSignInWithEmailAndPassword(
+      const { user } = await firebaseInstance.doSignInWithEmailAndPassword(
         userCredentials.email,
         userCredentials.password,
       )
@@ -47,10 +46,7 @@ const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setAuthUser: (
-      state,
-      action: PayloadAction<app.auth.UserCredential | null>,
-    ) => {
+    setAuthUser: (state, action: PayloadAction<AuthUser | null>) => {
       state.authUser = action.payload
     },
     setUserLogOutState: (state) => {
@@ -60,7 +56,7 @@ const sessionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signInUser.fulfilled, (state, action) => {
-        state.authUser = action.payload
+        state.authUser = action.payload as AuthUser
       })
       .addCase(signOutUser.fulfilled, (state) => {
         state.authUser = null
@@ -72,5 +68,5 @@ export const { setAuthUser, setUserLogOutState } = sessionSlice.actions
 
 export default sessionSlice.reducer
 
-export const selectAuthUser = (state: RootState): AuthUser | undefined | null =>
+export const selectAuthUser = (state: RootState): AuthUser | null =>
   state.session.authUser

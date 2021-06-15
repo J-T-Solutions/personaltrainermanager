@@ -1,3 +1,3 @@
-import app from 'firebase/app'
+import firebase from 'firebase/app'
 
-export type AuthUser = app.auth.UserCredential
+export type AuthUser = firebase.User
