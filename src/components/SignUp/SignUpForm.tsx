@@ -1,8 +1,14 @@
 import 'react-app-polyfill/ie11'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
 import Firebase from '../Firebase'
+import { useAppDispatch } from '../../hooks'
+import { signUpUser } from '../../features/authentication/sessionSlice'
 
-interface Values {
+interface IProps {
+  firebase?: Firebase | null
+}
+
+interface IFormValues {
   userName: string
   firstName: string
   lastName: string
@@ -10,28 +16,8 @@ interface Values {
   password: string
 }
 
-interface IProps {
-  firebase: Firebase | null
-}
-
-export const SignUpForm: React.FC<IProps> = ({ firebase }) => {
-  const onFormSubmit = async (
-    values: Values,
-    { setSubmitting }: FormikHelpers<Values>,
-  ) => {
-    const { email, password } = values
-    try {
-      // eslint-disable-next-line react/prop-types
-      const authUser = await firebase?.doCreateUserWithEmailAndPassword(
-        email,
-        password,
-      )
-      setSubmitting(false)
-      console.log('###authUser', authUser)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+export const SignUpForm: React.FC<IProps> = () => {
+  const dispatch = useAppDispatch();
 
   return (
     <div>
@@ -44,7 +30,16 @@ export const SignUpForm: React.FC<IProps> = ({ firebase }) => {
           email: '',
           password: '',
         }}
-        onSubmit={onFormSubmit}
+        onSubmit={(
+          values: IFormValues,
+          { setSubmitting }: FormikHelpers<IFormValues>
+        ) => {
+          const { email, password, userName } = values
+          dispatch(signUpUser({ email, password, userName }))
+          console.log('data sent!')
+          setSubmitting(false)
+          }
+      }
       >
         <Form>
           <label htmlFor="firstName">First Name</label>

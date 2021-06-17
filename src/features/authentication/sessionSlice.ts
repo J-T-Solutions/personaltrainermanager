@@ -39,9 +39,29 @@ export const signOutUser = createAsyncThunk('session/signOut', async () => {
   } catch (err) {
     console.log(err)
   } finally {
-    history.push(Routes.SingOut)
+    history.push(Routes.SignOut)
   }
 })
+
+export const signUpUser = createAsyncThunk('session/signUp', async (userCredentials: { email: string; password: string, userName: string }) => {
+  try {
+    const user = await firebaseInstance.doCreateUserWithEmailAndPassword(
+      userCredentials.email,
+      userCredentials.password
+      )
+    // ).then((authUser: AuthUser) => {
+    //   return firebaseInstance
+    //     .user(authUser.user.uid)
+    //     .set({ username, email, roles })
+    // })
+    return user
+    
+    
+  } catch (err) {
+    console.log('failed to create new user:', err)
+  }
+}
+)
 
 const sessionSlice = createSlice({
   name: 'session',
@@ -56,6 +76,7 @@ const sessionSlice = createSlice({
     setUserLogOutState: (state) => {
       state.authUser = null
     },
+    
   },
   extraReducers: (builder) => {
     builder

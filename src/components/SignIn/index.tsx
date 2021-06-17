@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
-import { SignUpLink } from '../SignUp'
+//import { SignUpLink } from '../SignUp'
 import Firebase, { withFirebase } from '../Firebase'
 import { Routes } from '../../constants/routes'
 import { PasswordForgetLink } from '../PasswordForget'
@@ -20,7 +20,6 @@ const SignInPage: React.FC = () => (
     <SignInForm />
     <SignInGoogle />
     <SignInFacebook />
-    <SignUpLink />
     <PasswordForgetLink />
   </div>
 )

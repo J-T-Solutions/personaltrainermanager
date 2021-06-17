@@ -39,7 +39,7 @@ const App: React.FC = () => {
         <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
         <Route path={Routes.Home} component={HomePage} />
         <Route path={Routes.Account} component={AccountPage} />
-        <Route path={Routes.SingOut} component={SignOutPage} />
+        <Route path={Routes.SignOut} component={SignOutPage} />
       </div>
     </Router>
   )
