@@ -1,9 +1,12 @@
-import { Field, Form, Formik, FormikHelpers } from 'formik'
+import * as yup from 'yup'
+import { Button, Divider } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField'
 import { useHistory } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
 
 import { signInUser } from '../../features/authentication/sessionSlice'
 import { useAppDispatch } from '../../hooks'
+import { FormikHelpers, useFormik } from 'formik'
 
 interface IFormValues {
   email: string
@@ -15,46 +18,72 @@ const formInitialValues = {
   email: 'poczwar12@o2.pl',
 }
 
-export const SignInForm: React.FC = () => {
+const SignInWithEmail: React.FC = () => {
   const dispatch = useAppDispatch()
   const history = useHistory()
 
-  const onSubmit = async (
-    values: IFormValues,
-    { setSubmitting }: FormikHelpers<IFormValues>,
-  ) => {
-    const { email, password } = values
-    try {
-      await dispatch(signInUser({ email, password })).unwrap()
-      setSubmitting(false)
-    } catch (err) {
-      console.log(err)
-    } finally {
-      history.push(Routes.Account)
-    }
-  }
+  const validationSchema = yup.object({
+    email: yup
+      .string()
+      .email('Enter a valid email')
+      .required('Email is required'),
+    password: yup
+      .string()
+      .min(8, 'Password should be of minimum 8 characters length')
+      .required('Password is required'),
+  })
+
+  const formik = useFormik({
+    initialValues: formInitialValues,
+
+    validationSchema: validationSchema,
+    onSubmit: async (
+      values: IFormValues,
+      { setSubmitting }: FormikHelpers<IFormValues>,
+    ) => {
+      const { email, password } = values
+      try {
+        await dispatch(signInUser({ email, password })).unwrap()
+        setSubmitting(false)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        history.push(Routes.Account)
+      }
+    },
+  })
 
   return (
-    <Formik initialValues={formInitialValues} onSubmit={onSubmit}>
-      <Form>
-        <label htmlFor="email">Last Name</label>
-        <Field
-          autoComplete="off"
+    <div>
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          fullWidth
           id="email"
           name="email"
-          placeholder="john@acme.com"
+          label="Email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
-
-        <label htmlFor="password">Email</label>
-        <Field
-          autoComplete="off"
+        <TextField
+          fullWidth
           id="password"
           name="password"
+          label="Password"
           type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
-
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
+        <Divider light />
+        <Button color="primary" variant="contained" fullWidth type="submit">
+          Submit
+        </Button>
+      </form>
+    </div>
   )
 }
+
+export default SignInWithEmail

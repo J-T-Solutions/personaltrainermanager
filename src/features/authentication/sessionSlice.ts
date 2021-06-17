@@ -52,13 +52,24 @@ export const signInWithGoogle = createAsyncThunk(
   },
 )
 
+export const signInWithFacebook = createAsyncThunk(
+  'session/signInWithFacebook',
+  async (param, { dispatch }) => {
+    const { user } = await firebaseInstance.doSignInWithFacebook()
+    if (user) {
+      dispatch(createUser(user))
+    }
+    return user
+  },
+)
+
 export const signOutUser = createAsyncThunk('session/signOut', async () => {
   try {
     return await firebaseInstance.doSignOut()
   } catch (err) {
     console.log(err)
   } finally {
-    history.push(Routes.SingOut)
+    history.push(Routes.SignIn)
   }
 })
 
@@ -80,6 +91,9 @@ const sessionSlice = createSlice({
         state.authUser = action.payload as AuthUser
       })
       .addCase(signInWithGoogle.fulfilled, (state, action) => {
+        state.authUser = action.payload as AuthUser
+      })
+      .addCase(signInWithFacebook.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser
       })
       .addCase(signInWithGoogle.rejected, (state, { meta, payload, error }) => {

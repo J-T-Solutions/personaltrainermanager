@@ -1,5 +1,6 @@
 import { signOutUser } from '../../features/authentication/sessionSlice'
 import { useAppDispatch } from '../../hooks'
+import Button from '@material-ui/core/Button'
 
 const SignOutButton: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -8,9 +9,9 @@ const SignOutButton: React.FC = () => {
   }
 
   return (
-    <button type="button" onClick={onSignOutUser}>
+    <Button color="inherit" onClick={onSignOutUser}>
       Sign Out
-    </button>
+    </Button>
   )
 }
 
