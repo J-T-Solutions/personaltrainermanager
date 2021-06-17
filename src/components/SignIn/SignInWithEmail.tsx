@@ -1,38 +1,41 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik'
 import { useHistory } from 'react-router-dom'
+import { Routes } from '../../constants/routes'
 
 import { signInUser } from '../../features/authentication/sessionSlice'
 import { useAppDispatch } from '../../hooks'
-import { Routes } from '../../constants/routes'
 
 interface IFormValues {
   email: string
   password: string
 }
 
+const formInitialValues = {
+  password: 'P29oczwar',
+  email: 'poczwar12@o2.pl',
+}
+
 export const SignInForm: React.FC = () => {
   const dispatch = useAppDispatch()
+  const history = useHistory()
 
-  // const [email, setEmail] = useState('poczwar12@o2.pl')
-  // const [password, setPassword] = useState('P29oczwar')
+  const onSubmit = async (
+    values: IFormValues,
+    { setSubmitting }: FormikHelpers<IFormValues>,
+  ) => {
+    const { email, password } = values
+    try {
+      await dispatch(signInUser({ email, password })).unwrap()
+      setSubmitting(false)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      history.push(Routes.Account)
+    }
+  }
 
   return (
-    <Formik
-      initialValues={{
-        password: 'P29oczwar',
-        email: 'poczwar12@o2.pl',
-      }}
-      onSubmit={(
-        values: IFormValues,
-        { setSubmitting }: FormikHelpers<IFormValues>,
-      ) => {
-        const { email, password } = values
-        dispatch(signInUser({ email, password }))
-
-        // TODO: Move it to saga or thunk
-        setSubmitting(false)
-      }}
-    >
+    <Formik initialValues={formInitialValues} onSubmit={onSubmit}>
       <Form>
         <label htmlFor="email">Last Name</label>
         <Field
@@ -40,7 +43,6 @@ export const SignInForm: React.FC = () => {
           id="email"
           name="email"
           placeholder="john@acme.com"
-          // value="poczwar12@o2.pl"
         />
 
         <label htmlFor="password">Email</label>
@@ -49,7 +51,6 @@ export const SignInForm: React.FC = () => {
           id="password"
           name="password"
           type="password"
-          // value="P29oczwar"
         />
 
         <button type="submit">Submit</button>

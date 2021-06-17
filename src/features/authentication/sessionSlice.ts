@@ -7,6 +7,10 @@ import { Routes } from '../../constants/routes'
 
 const history = createBrowserHistory()
 
+interface IUserCredentials {
+  email: string
+  password: string
+}
 export interface IUserState {
   authUser: AuthUser | null
 }
@@ -15,20 +19,36 @@ const initialState: IUserState = {
   authUser: null,
 }
 
+export const createUser = createAsyncThunk(
+  'session/createUser',
+  async (user: AuthUser) => {
+    return firebaseInstance.user(user.uid).set({
+      username: user.displayName,
+      email: user.email,
+      roles: {},
+    })
+  },
+)
+
 export const signInUser = createAsyncThunk(
   'session/signIn',
-  async (userCredentials: { email: string; password: string }) => {
-    try {
-      const { user } = await firebaseInstance.doSignInWithEmailAndPassword(
-        userCredentials.email,
-        userCredentials.password,
-      )
-      return user
-    } catch (err) {
-      console.log(err)
-    } finally {
-      history.push(Routes.Account)
+  async (userCredentials: IUserCredentials) => {
+    const { user } = await firebaseInstance.doSignInWithEmailAndPassword(
+      userCredentials.email,
+      userCredentials.password,
+    )
+    return user
+  },
+)
+
+export const signInWithGoogle = createAsyncThunk(
+  'session/signInWithGoogle',
+  async (param, { dispatch }) => {
+    const { user } = await firebaseInstance.doSignInWithGoogle()
+    if (user) {
+      dispatch(createUser(user))
     }
+    return user
   },
 )
 
@@ -55,11 +75,22 @@ const sessionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // user signing
       .addCase(signInUser.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser
       })
+      .addCase(signInWithGoogle.fulfilled, (state, action) => {
+        state.authUser = action.payload as AuthUser
+      })
+      .addCase(signInWithGoogle.rejected, (state, { meta, payload, error }) => {
+        // TODO: throw error or rejected action
+      })
       .addCase(signOutUser.fulfilled, (state) => {
         state.authUser = null
+      })
+      // createUser
+      .addCase(createUser.rejected, (state, { meta, payload, error }) => {
+        // TODO: throw error or rejected action
       })
   },
 })

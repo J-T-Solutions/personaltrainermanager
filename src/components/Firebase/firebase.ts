@@ -50,10 +50,10 @@ class Firebase {
   ): Promise<app.auth.UserCredential> =>
     this.auth.signInWithEmailAndPassword(email, password)
 
-  public doSignInWithGoogle = () =>
+  public doSignInWithGoogle = (): Promise<app.auth.UserCredential> =>
     this.auth.signInWithPopup(this.googleProvider)
 
-  public doSignInWithFacebook = () =>
+  public doSignInWithFacebook = (): Promise<app.auth.UserCredential> =>
     this.auth.signInWithPopup(this.facebookProvider)
 
   public doSignOut = (): Promise<void> => this.auth.signOut()
