@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import Firebase from '../Firebase'
-import { withFirebase } from '../Firebase'
+import Firebase from '../../components/Firebase'
+import { withFirebase } from '../../components/Firebase'
 import { compose } from 'recompose'
 
 // const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use'

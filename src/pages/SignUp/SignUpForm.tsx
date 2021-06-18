@@ -1,6 +1,6 @@
 import 'react-app-polyfill/ie11'
 import { Formik, Field, Form, FormikHelpers } from 'formik'
-import Firebase from '../Firebase'
+import Firebase from '../../components/Firebase'
 
 interface Values {
   userName: string

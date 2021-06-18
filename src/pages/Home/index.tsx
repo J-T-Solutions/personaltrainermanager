@@ -1,7 +1,10 @@
 import { compose } from 'recompose'
 import app from 'firebase/app'
 
-import { withAuthorization, withEmailVerification } from '../Session'
+import {
+  withAuthorization,
+  withEmailVerification,
+} from '../../components/Session'
 
 const HomePage = () => (
   <div>

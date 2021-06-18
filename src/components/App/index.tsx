@@ -1,53 +1,72 @@
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
+import clsx from 'clsx'
 
 import Navigation from '../Navigation'
-import LandingPage from '../Landing'
-import SignUpPage from '../SignUp'
-import PasswordForgetPage from '../PasswordForget'
-import HomePage from '../Home'
+import LandingPage from '../../pages/Landing'
+import SignUpPage from '../../pages/SignUp'
+import PasswordForgetPage from '../../pages/PasswordForget'
+import HomePage from '../../pages/Home'
 import AccountPage from '../Account'
 import { Routes } from '../../constants/routes'
 import React, { useEffect } from 'react'
-import { SignOutPage } from '../SignOut'
+import { SignOutPage } from '../../pages/SignOut'
 import { firebaseInstance } from '../Firebase'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { setAuthUser } from '../../features/authentication/sessionSlice'
+import SignInPage from '../../pages/SignIn/SignInPage'
+import AppDrawer from '../Drawer'
 import {
-  selectAuthUser,
-  setAuthUser,
-} from '../../features/authentication/sessionSlice'
-import SignInPage from '../SignIn/SignInPage'
+  selectShowDrawer,
+  setShowDrawer,
+} from '../../features/views/viewsSlice'
+import { useAppStyles } from './styles'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
-  const authUser = useAppSelector((state) => selectAuthUser(state))
+  const isDrawerOpen = useAppSelector((state) => selectShowDrawer(state))
+  const classes = useAppStyles()
 
   useEffect(() => {
-    const listener = firebaseInstance.onAuthUserListener((authUser) => {
-      if (authUser) {
-        dispatch(setAuthUser(authUser))
-      } else {
-        dispatch(setAuthUser(null))
-      }
-      return function cleanup() {
-        listener()
-      }
-    })
+    const listener = firebaseInstance.onAuthUserListener(
+      (authUser) => {
+        if (authUser) {
+          dispatch(setAuthUser(authUser))
+        }
+        return function cleanup() {
+          listener()
+        }
+      },
+      () => {
+        dispatch(setShowDrawer(false))
+      },
+    )
   }, [])
 
   return (
     <Router>
-      <Navigation />
-      <Container maxWidth="lg">
-        <Route exact path={Routes.Landing} component={LandingPage} />
-        <Route path={Routes.SignUp} component={SignUpPage} />
-        <Route path={Routes.SignIn} component={SignInPage} />
-        <Route path={Routes.PasswordForget} component={PasswordForgetPage} />
-        <Route path={Routes.Home} component={HomePage} />
-        <Route path={Routes.Account} component={AccountPage} />
-        <Route path={Routes.SingOut} component={SignOutPage} />
-        {!authUser && <Redirect to={Routes.SignIn} />}
-      </Container>
+      <div className={classes.root}>
+        <Navigation />
+        <AppDrawer />
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: isDrawerOpen,
+          })}
+        >
+          <Container maxWidth="lg">
+            <Route exact path={Routes.Landing} component={LandingPage} />
+            <Route path={Routes.SignUp} component={SignUpPage} />
+            <Route path={Routes.SignIn} component={SignInPage} />
+            <Route
+              path={Routes.PasswordForget}
+              component={PasswordForgetPage}
+            />
+            <Route path={Routes.Home} component={HomePage} />
+            <Route path={Routes.Account} component={AccountPage} />
+            <Route path={Routes.SingOut} component={SignOutPage} />
+          </Container>
+        </main>
+      </div>
     </Router>
   )
 }

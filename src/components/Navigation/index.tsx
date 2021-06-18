@@ -1,42 +1,48 @@
-import { useAppSelector } from '../../hooks'
-import { selectAuthUser } from '../../features/authentication/sessionSlice'
-import { SignOutButton } from '../SignOut'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-  }),
-)
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { selectAuthUser } from '../../features/authentication/sessionSlice'
+import { SignOutButton } from '../../pages/SignOut'
+import {
+  selectShowDrawer,
+  setShowDrawer,
+} from '../../features/views/viewsSlice'
+import clsx from 'clsx'
+import { useNavigationStyles } from './styles'
 
 const Navigation: React.FC = () => {
-  const classes = useStyles()
+  const classes = useNavigationStyles()
   const authUser = useAppSelector((state) => selectAuthUser(state))
+  const isDrawerOpen = useAppSelector((state) => selectShowDrawer(state))
+
+  const dispatch = useAppDispatch()
+  const handleOpenDrawer = () => {
+    dispatch(setShowDrawer(true))
+  }
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="fixed"
+      className={clsx(classes.appBar, {
+        [classes.appBarShift]: isDrawerOpen,
+      })}
+    >
       <Toolbar>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <MenuIcon />
-        </IconButton>
+        {authUser && (
+          <IconButton
+            edge="start"
+            onClick={handleOpenDrawer}
+            className={clsx(classes.menuButton, isDrawerOpen && classes.hide)}
+            color="inherit"
+            aria-label="menu"
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography variant="h6" className={classes.title}>
           Personal Trainer Manager
         </Typography>
