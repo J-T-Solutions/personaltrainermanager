@@ -30,6 +30,17 @@ export const createUser = createAsyncThunk(
   },
 )
 
+export const signUpUser = createAsyncThunk(
+  'session/signUp',
+  async (userCredentials: IUserCredentials) => {
+    const { user } = await firebaseInstance.doCreateUserWithEmailAndPassword(
+      userCredentials.email,
+      userCredentials.password,
+    )
+    return user
+  },
+)
+
 export const signInUser = createAsyncThunk(
   'session/signIn',
   async (userCredentials: IUserCredentials) => {
@@ -86,6 +97,9 @@ const sessionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.authUser = action.payload as AuthUser
+      })
       // user signing
       .addCase(signInUser.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser

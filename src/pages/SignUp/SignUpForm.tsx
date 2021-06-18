@@ -1,79 +1,126 @@
 import 'react-app-polyfill/ie11'
-import { Formik, Field, Form, FormikHelpers } from 'formik'
-import Firebase from '../../components/Firebase'
+import { FormikHelpers, useFormik } from 'formik'
+import { useHistory } from 'react-router-dom'
+import { useAppDispatch } from '../../hooks'
+import { signUpUser } from '../../features/authentication/sessionSlice'
+import { Routes } from '../../constants/routes'
+import { TextField } from '@material-ui/core'
+import { SubmitButton } from './styles'
 
-interface Values {
+interface IFormValues {
   userName: string
   firstName: string
   lastName: string
   email: string
   password: string
+  passwordConfirmation: string
 }
 
-interface IProps {
-  firebase: Firebase | null
-}
-
-export const SignUpForm: React.FC<IProps> = ({ firebase }) => {
+const SignUpForm: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const history = useHistory()
   const onFormSubmit = async (
-    values: Values,
-    { setSubmitting }: FormikHelpers<Values>,
+    values: IFormValues,
+    { setSubmitting }: FormikHelpers<IFormValues>,
   ) => {
     const { email, password } = values
     try {
-      // eslint-disable-next-line react/prop-types
-      const authUser = await firebase?.doCreateUserWithEmailAndPassword(
-        email,
-        password,
-      )
+      await dispatch(signUpUser({ email, password }))
       setSubmitting(false)
-      console.log('###authUser', authUser)
-    } catch (err) {
-      console.error(err)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      console.log('####finally')
+      history.push(Routes.Account)
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      userName: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    },
+    onSubmit: onFormSubmit,
+  })
 
   return (
     <div>
       <h1>Signup</h1>
-      <Formik
-        initialValues={{
-          userName: '',
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-        }}
-        onSubmit={onFormSubmit}
-      >
-        <Form>
-          <label htmlFor="firstName">First Name</label>
-          <Field id="firstName" name="firstName" placeholder="John" />
 
-          <label htmlFor="lastName">Last Name</label>
-          <Field id="lastName" name="lastName" placeholder="Doe" />
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          fullWidth
+          id="firstName"
+          name="firstName"
+          label="First Name"
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
 
-          <label htmlFor="email">Email</label>
-          <Field
-            id="email"
-            name="email"
-            placeholder="john@acme.com"
-            type="email"
-          />
+        <TextField
+          fullWidth
+          id="lastName"
+          name="lastName"
+          label="Last Name"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
 
-          <label htmlFor="password">Password</label>
-          <Field id="password" name="password" type="password" />
+        <TextField
+          fullWidth
+          id="email"
+          name="email"
+          label="Email"
+          type="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
 
-          <label htmlFor="passwordConfirmation">Confirm password</label>
-          <Field
-            id="passwordConfirmation"
-            name="passwordConfirmation"
-            type="password"
-          />
+        <TextField
+          fullWidth
+          id="password"
+          name="password"
+          type="password"
+          label="First Name"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
 
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
+        <TextField
+          fullWidth
+          id="passwordConfirmation"
+          name="passwordConfirmation"
+          type="password"
+          label="First Name"
+          value={formik.values.passwordConfirmation}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+
+        <SubmitButton
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+        >
+          Submit
+        </SubmitButton>
+      </form>
     </div>
   )
 }
+
+export default SignUpForm

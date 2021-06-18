@@ -4,7 +4,6 @@ import clsx from 'clsx'
 
 import Navigation from '../Navigation'
 import LandingPage from '../../pages/Landing'
-import SignUpPage from '../../pages/SignUp'
 import PasswordForgetPage from '../../pages/PasswordForget'
 import HomePage from '../../pages/Home'
 import AccountPage from '../Account'
@@ -21,6 +20,7 @@ import {
   setShowDrawer,
 } from '../../features/views/viewsSlice'
 import { useAppStyles } from './styles'
+import { SignUpForm } from '../../pages/SignUp'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -55,7 +55,7 @@ const App: React.FC = () => {
         >
           <Container maxWidth="lg">
             <Route exact path={Routes.Landing} component={LandingPage} />
-            <Route path={Routes.SignUp} component={SignUpPage} />
+            <Route path={Routes.SignUp} component={SignUpForm} />
             <Route path={Routes.SignIn} component={SignInPage} />
             <Route
               path={Routes.PasswordForget}

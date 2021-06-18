@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../store'
 
 const initialState = {
-  showDrawer: true,
+  showDrawer: false,
 }
 
 const viewsSlice = createSlice({
