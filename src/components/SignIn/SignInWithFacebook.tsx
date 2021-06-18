@@ -1,5 +1,19 @@
+import {
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+  withStyles,
+} from '@material-ui/core'
 import { signInWithFacebook } from '../../features/authentication/sessionSlice'
 import { useAppDispatch } from '../../hooks'
+
+const FacebookButton = withStyles((theme: Theme) => ({
+  root: {
+    height: '50px',
+    marginTop: '15px',
+  },
+}))(Button)
 
 const SignInWithFacebook: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -11,7 +25,15 @@ const SignInWithFacebook: React.FC = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <button type="submit">Sign In with Facebook</button>
+      <FacebookButton
+        size="large"
+        color="primary"
+        variant="contained"
+        fullWidth
+        type="submit"
+      >
+        Sign In with Facebook
+      </FacebookButton>
     </form>
   )
 }

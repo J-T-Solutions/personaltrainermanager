@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { ThemeProvider } from '@material-ui/core'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
@@ -9,14 +9,17 @@ import { FirebaseContext, firebaseInstance } from './components/Firebase'
 import reportWebVitals from './reportWebVitals'
 
 import { store } from './store'
+import { appTheme } from './theme'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <FirebaseContext.Provider value={firebaseInstance}>
-        <App />
-      </FirebaseContext.Provider>
-    </Provider>
+    <ThemeProvider theme={appTheme}>
+      <Provider store={store}>
+        <FirebaseContext.Provider value={firebaseInstance}>
+          <App />
+        </FirebaseContext.Provider>
+      </Provider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

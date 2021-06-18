@@ -1,19 +1,21 @@
 import { useAppDispatch } from '../../hooks'
 import { signInWithGoogle } from '../../features/authentication/sessionSlice'
-import googleBtn from '../../assets/images/google-signin.png'
+import GoogleButton from 'react-google-button'
 
 const SignInWithGoogle: React.FC = () => {
   const dispatch = useAppDispatch()
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     dispatch(signInWithGoogle())
   }
 
   return (
-    <div onClick={onSubmit}>
-      <img src={googleBtn} alt="Google Sign In Button" />
-    </div>
+    <GoogleButton
+      onClick={onSubmit}
+      type="light"
+      style={{ width: '100%', marginTop: '30px' }}
+    />
   )
 }
 

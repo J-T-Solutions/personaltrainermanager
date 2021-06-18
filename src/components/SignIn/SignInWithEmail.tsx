@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Button, Divider } from '@material-ui/core'
+import { Button, Theme, withStyles } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import { useHistory } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
@@ -17,6 +17,12 @@ const formInitialValues = {
   password: 'P29oczwar',
   email: 'poczwar12@o2.pl',
 }
+
+const SubmitButton = withStyles((theme: Theme) => ({
+  root: {
+    marginTop: '15px',
+  },
+}))(Button)
 
 const SignInWithEmail: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -77,10 +83,15 @@ const SignInWithEmail: React.FC = () => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Divider light />
-        <Button color="primary" variant="contained" fullWidth type="submit">
+
+        <SubmitButton
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+        >
           Submit
-        </Button>
+        </SubmitButton>
       </form>
     </div>
   )

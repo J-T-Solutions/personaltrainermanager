@@ -44,11 +44,7 @@ const Navigation: React.FC = () => {
         <Typography variant="h6" className={classes.title}>
           Personal Trainer Manager
         </Typography>
-        {authUser ? (
-          <SignOutButton />
-        ) : (
-          <Button color="inherit">Sign In</Button>
-        )}
+        {authUser && <SignOutButton />}
       </Toolbar>
     </AppBar>
   )

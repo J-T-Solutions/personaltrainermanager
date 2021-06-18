@@ -14,6 +14,10 @@ import { SignUpLink } from '../SignUp'
 import { PasswordForgetLink } from '../PasswordForget'
 import { SignInWithGoogle, SignInWithFacebook } from '.'
 import SignInWithEmail from './SignInWithEmail'
+import { selectAuthUser } from '../../features/authentication/sessionSlice'
+import { useAppSelector } from '../../hooks'
+import { Redirect } from 'react-router-dom'
+import { Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,7 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SignInPage: React.FC = () => {
   const classes = useStyles()
+  const authUser = useAppSelector((state) => selectAuthUser(state))
 
+  if (authUser) return <Redirect to="/" />
   return (
     <Grid
       container
@@ -38,7 +44,9 @@ const SignInPage: React.FC = () => {
       <Grid item xs={4}>
         <Card className={classes.root}>
           <CardContent>
-            <h1>SignIn</h1>
+            <Typography variant="h4" gutterBottom>
+              SignIn
+            </Typography>
             <SignInWithEmail />
             <SignInWithGoogle />
             <SignInWithFacebook />
