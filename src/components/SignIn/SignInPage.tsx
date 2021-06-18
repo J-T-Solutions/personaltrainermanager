@@ -6,7 +6,6 @@ import {
   Card,
   createStyles,
   makeStyles,
-  Theme,
   Grid,
 } from '@material-ui/core'
 
@@ -19,7 +18,7 @@ import { useAppSelector } from '../../hooks'
 import { Redirect } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       maxWidth: 345,

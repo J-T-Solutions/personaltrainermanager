@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Button, Theme, withStyles } from '@material-ui/core'
+import { Button, withStyles } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import { useHistory } from 'react-router-dom'
 import { Routes } from '../../constants/routes'
@@ -18,7 +18,7 @@ const formInitialValues = {
   email: 'poczwar12@o2.pl',
 }
 
-const SubmitButton = withStyles((theme: Theme) => ({
+const SubmitButton = withStyles(() => ({
   root: {
     marginTop: '15px',
   },

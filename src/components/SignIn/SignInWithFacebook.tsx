@@ -1,14 +1,8 @@
-import {
-  Button,
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles,
-} from '@material-ui/core'
+import { Button, withStyles } from '@material-ui/core'
 import { signInWithFacebook } from '../../features/authentication/sessionSlice'
 import { useAppDispatch } from '../../hooks'
 
-const FacebookButton = withStyles((theme: Theme) => ({
+const FacebookButton = withStyles(() => ({
   root: {
     height: '50px',
     marginTop: '15px',

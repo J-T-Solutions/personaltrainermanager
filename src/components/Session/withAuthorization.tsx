@@ -7,11 +7,6 @@ import { compose } from 'recompose'
 import AuthUserContext from './context'
 import { withFirebase } from '../Firebase'
 
-type AuthInterface = {
-  uid: string
-  email: string
-}
-
 // Fix Any type, React.Component<any> is a pain in the ass
 const withAuthorization = (condition: any) => (Component: React.FC) => {
   class WithAuthorization extends React.Component<any> {

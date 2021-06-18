@@ -96,14 +96,14 @@ const sessionSlice = createSlice({
       .addCase(signInWithFacebook.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser
       })
-      .addCase(signInWithGoogle.rejected, (state, { meta, payload, error }) => {
+      .addCase(signInWithGoogle.rejected, () => {
         // TODO: throw error or rejected action
       })
       .addCase(signOutUser.fulfilled, (state) => {
         state.authUser = null
       })
       // createUser
-      .addCase(createUser.rejected, (state, { meta, payload, error }) => {
+      .addCase(createUser.rejected, () => {
         // TODO: throw error or rejected action
       })
   },

@@ -1,6 +1,3 @@
-import { Link } from 'react-router-dom'
-import { Routes } from '../../constants/routes'
-
 import { useAppSelector } from '../../hooks'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 import { SignOutButton } from '../SignOut'
@@ -8,7 +5,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
@@ -49,20 +45,5 @@ const Navigation: React.FC = () => {
     </AppBar>
   )
 }
-
-// const NavigationNonAuth = () => (
-//   <ul>
-//     <li>
-//       <Link to={Routes.Landing}>Landing</Link>
-//     </li>
-//     <li>
-//       <Link to={Routes.SignIn}>Sign In</Link>
-//     </li>
-//     <li>
-//       <Link to={Routes.SignUp}>Sign Up</Link>
-//     </li>
-//     <li></li>
-//   </ul>
-// )
 
 export default Navigation
