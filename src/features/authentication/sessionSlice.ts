@@ -1,11 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { createBrowserHistory } from 'history'
 import { firebaseInstance } from '../../components/Firebase'
 import { RootState } from '../../store'
 import { AuthUser } from '../../interfaces'
-import { Routes } from '../../constants/routes'
-
-const history = createBrowserHistory()
 
 interface IUserCredentials {
   email: string
@@ -75,13 +71,7 @@ export const signInWithFacebook = createAsyncThunk(
 )
 
 export const signOutUser = createAsyncThunk('session/signOut', async () => {
-  try {
-    return await firebaseInstance.doSignOut()
-  } catch (err) {
-    console.log(err)
-  } finally {
-    history.push(Routes.SignIn)
-  }
+  return await firebaseInstance.doSignOut()
 })
 
 const sessionSlice = createSlice({

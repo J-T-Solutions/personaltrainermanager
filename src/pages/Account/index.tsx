@@ -1,4 +1,38 @@
-const Account: React.FC = () => <div>Account</div>
+const Account: React.FC = () => (
+  <div>
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
+    repellat obcaecati distinctio quo, inventore nisi rem sint nulla provident
+    illum sed eveniet reprehenderit praesentium officia illo perferendis
+    ducimus. Numquam eos quae quam, dolorum quo delectus sit, eligendi
+    perferendis porro nam commodi? Vel eligendi inventore quaerat earum sapiente
+    autem ad aliquid provident ab neque optio voluptates eius, dolorum numquam
+    iure voluptate beatae. Porro, sequi. Nam quos aut provident, quibusdam ex
+    temporibus. Amet laudantium quidem mollitia, odit nostrum aliquam iusto cum
+    tempora dicta officia, rem qui molestiae fuga animi eius veniam? Eos
+    necessitatibus excepturi officia nesciunt accusantium dolorem ipsa quos,
+    soluta in a obcaecati at eligendi debitis minus error maiores aliquam modi
+    illum? Nemo dolore, assumenda asperiores dignissimos consequuntur iusto
+    sapiente, vero unde inventore velit alias saepe, consequatur aut molestiae
+    minus porro! Possimus voluptatibus enim molestias eligendi qui repellendus
+    nesciunt aliquid explicabo ab. Eius beatae nemo sint quos voluptates. A sit
+    mollitia dolorum optio doloremque aliquid, autem vero tempora eveniet culpa
+    assumenda facilis et eius saepe nulla, repellat debitis, id enim delectus.
+    Cumque officiis hic facere eveniet voluptatum accusamus error repudiandae
+    nisi minus, ipsam explicabo velit culpa soluta, odio obcaecati magnam
+    aspernatur debitis optio fugiat adipisci excepturi. Recusandae pariatur ipsa
+    reiciendis aspernatur enim distinctio deserunt suscipit esse maiores beatae!
+    Molestiae molestias eos alias sit assumenda obcaecati, neque minima vitae
+    eius voluptatum temporibus quis voluptate voluptatibus deserunt, nisi
+    laudantium culpa aliquam vero quos similique. Nam tenetur atque dolorum
+    voluptatum inventore perspiciatis molestiae a numquam vero, laborum quod
+    maiores, eum repellat ab quasi distinctio natus aut sequi deserunt
+    perferendis facere error, recusandae placeat! Aliquid nulla ipsa, totam
+    necessitatibus dolorum odit magni cum soluta reiciendis commodi quo
+    explicabo quis quas sint non esse nobis quasi harum corporis, blanditiis
+    enim? Repellat fugit possimus sint eos cumque harum porro quos molestias,
+    error voluptatum repudiandae impedit praesentium adipisci.
+  </div>
+)
 export default Account
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // import React, { Component } from 'react'
