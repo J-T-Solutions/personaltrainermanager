@@ -13,6 +13,8 @@ import {
 } from '../../features/views/viewsSlice'
 import clsx from 'clsx'
 import { useNavigationStyles } from './styles'
+import ReusableNavBtn from '../ReusableNavBtn'
+import { Routes } from '../../constants/routes'
 
 const Navigation: React.FC = () => {
   const classes = useNavigationStyles()
@@ -46,7 +48,23 @@ const Navigation: React.FC = () => {
         <Typography variant="h6" className={classes.title}>
           Personal Trainer Manager
         </Typography>
-        {authUser && <SignOutButton />}
+        {authUser ? (
+          <div>
+            <SignOutButton />
+            <ReusableNavBtn name={'Home'} redirect={Routes.Home} />
+            <ReusableNavBtn
+              variant={'outlined'}
+              name={authUser?.email}
+              redirect={Routes.Account}
+            />
+          </div>
+        ) : (
+          <div>
+            <ReusableNavBtn name={'Landing'} redirect={Routes.Landing} />
+            <ReusableNavBtn name={'Sign In'} redirect={Routes.SignIn} />
+            <ReusableNavBtn name={'Sign Up'} redirect={Routes.SignUp} />
+          </div>
+        )}
       </Toolbar>
     </AppBar>
   )

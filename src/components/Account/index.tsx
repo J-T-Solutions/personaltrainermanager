@@ -1,4 +1,34 @@
-const Account: React.FC = () => <div>Account</div>
+import { Routes } from '../../constants/routes'
+import { useAppSelector } from '../../hooks'
+import { createBrowserHistory } from 'history'
+
+interface ChildComponentProps {
+  history: any
+}
+
+const Account: React.FC<ChildComponentProps> = ({ history }) => {
+  const authUser = useAppSelector((state) => state.session.authUser)
+
+  if (!authUser) {
+    history.push(Routes.SignIn)
+    console.log('non-authorized')
+  }
+
+  return (
+    <div>
+      <h1>Account</h1>
+      <h4>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nisi,
+        labore veniam eos odit deserunt illo expedita! Aliquam obcaecati
+        incidunt impedit amet. Nesciunt, nam error consectetur eveniet, in
+        voluptas illum distinctio a ea modi accusantium temporibus cumque
+        similique praesentium perferendis maxime inventore facilis. Dolore
+        tempora unde vero eius ab voluptatibus?
+      </h4>
+    </div>
+  )
+}
+
 export default Account
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // import React, { Component } from 'react'

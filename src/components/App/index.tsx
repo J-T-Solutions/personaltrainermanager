@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Router, Route } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import clsx from 'clsx'
 
@@ -20,7 +20,11 @@ import {
   setShowDrawer,
 } from '../../features/views/viewsSlice'
 import { useAppStyles } from './styles'
-import { SignUpForm } from '../../pages/SignUp'
+import { SignUpPage } from '../../pages/SignUp'
+import { History } from 'history'
+import { createBrowserHistory } from 'history'
+
+const history = createBrowserHistory()
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -44,7 +48,7 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    <Router>
+    <Router history={history}>
       <div className={classes.root}>
         <Navigation />
         <AppDrawer />
@@ -55,7 +59,7 @@ const App: React.FC = () => {
         >
           <Container maxWidth="lg">
             <Route exact path={Routes.Landing} component={LandingPage} />
-            <Route path={Routes.SignUp} component={SignUpForm} />
+            <Route path={Routes.SignUp} component={SignUpPage} />
             <Route path={Routes.SignIn} component={SignInPage} />
             <Route
               path={Routes.PasswordForget}
