@@ -21,7 +21,6 @@ import {
 } from '../../features/views/viewsSlice'
 import { useAppStyles } from './styles'
 import { SignUpPage } from '../../pages/SignUp'
-import { History } from 'history'
 import { createBrowserHistory } from 'history'
 
 const history = createBrowserHistory()
@@ -32,17 +31,19 @@ const App: React.FC = () => {
   const classes = useAppStyles()
 
   useEffect(() => {
+    if (localStorage.getItem('authUser')) {
+      dispatch(setAuthUser(JSON.parse(localStorage.getItem('authUser')!)))
+    }
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
-        if (authUser) {
-          dispatch(setAuthUser(authUser))
-        }
+        localStorage.setItem('authUser', JSON.stringify(authUser))
         return function cleanup() {
           listener()
         }
       },
       () => {
         dispatch(setShowDrawer(false))
+        localStorage.removeItem('authUser')
       },
     )
   }, [])

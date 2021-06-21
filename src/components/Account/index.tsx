@@ -1,13 +1,13 @@
 import { Routes } from '../../constants/routes'
 import { useAppSelector } from '../../hooks'
-import { createBrowserHistory } from 'history'
+import { selectAuthUser } from '../../features/authentication/sessionSlice'
 
 interface ChildComponentProps {
   history: any
 }
 
 const Account: React.FC<ChildComponentProps> = ({ history }) => {
-  const authUser = useAppSelector((state) => state.session.authUser)
+  const authUser = useAppSelector((state) => selectAuthUser(state))
 
   if (!authUser) {
     history.push(Routes.SignIn)
