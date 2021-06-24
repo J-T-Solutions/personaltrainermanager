@@ -21,6 +21,7 @@ import {
 } from '../../features/views/viewsSlice'
 import { useAppStyles } from './styles'
 import { SignUpForm } from '../../pages/SignUp'
+import { LocalStorageKey } from './constants'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -28,6 +29,14 @@ const App: React.FC = () => {
   const classes = useAppStyles()
 
   useEffect(() => {
+    const authUserFromLocalStorage = localStorage.getItem(
+      LocalStorageKey.AuthUser,
+    )
+
+    if (authUserFromLocalStorage) {
+      dispatch(setAuthUser(JSON.parse(authUserFromLocalStorage)))
+    }
+
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
         if (authUser) {
@@ -39,6 +48,7 @@ const App: React.FC = () => {
       },
       () => {
         dispatch(setShowDrawer(false))
+        localStorage.removeItem(LocalStorageKey.AuthUser)
       },
     )
   }, [])
