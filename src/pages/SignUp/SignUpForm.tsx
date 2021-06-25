@@ -2,10 +2,7 @@ import 'react-app-polyfill/ie11'
 import { FormikHelpers, useFormik } from 'formik'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks'
-import {
-  createUser,
-  signUpUser,
-} from '../../features/authentication/sessionSlice'
+import { signUpUser } from '../../features/authentication/sessionSlice'
 import { Routes } from '../../constants/routes'
 import {
   FormControl,
@@ -17,7 +14,6 @@ import {
 } from '@material-ui/core'
 import { SubmitButton } from './styles'
 import * as Yup from 'yup'
-import { useState } from 'react'
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -68,6 +64,7 @@ const SignUpForm: React.FC = () => {
       role: 'trainer',
     },
     onSubmit: onFormSubmit,
+    validationSchema: SignupSchema,
   })
 
   return (
