@@ -23,6 +23,7 @@ import {
 import { useAppStyles } from './styles'
 import { createBrowserHistory } from 'history'
 import SignUpPage from '../../pages/SignUp/SignUpPage'
+import { LocalStorageKey } from '../../constants/localStorage'
 
 const history = createBrowserHistory()
 
@@ -32,17 +33,22 @@ const App: React.FC = () => {
   const classes = useAppStyles()
 
   useEffect(() => {
-    if (localStorage.getItem('authUser')) {
-      dispatch(setAuthUser(JSON.parse(localStorage.getItem('authUser')!)))
+    const authUserFromLocalStorage = localStorage.getItem(
+      LocalStorageKey.AuthUser,
+    )
+
+    if (authUserFromLocalStorage) {
+      dispatch(setAuthUser(JSON.parse(authUserFromLocalStorage)))
     }
+
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
-        localStorage.setItem('authUser', JSON.stringify(authUser))
+        localStorage.setItem(LocalStorageKey.AuthUser, JSON.stringify(authUser))
         dispatch(setAuthUser(authUser))
       },
       () => {
         dispatch(setShowDrawer(false))
-        localStorage.removeItem('authUser')
+        localStorage.removeItem(LocalStorageKey.AuthUser)
       },
     )
     // removes listener
