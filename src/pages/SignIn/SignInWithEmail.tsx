@@ -51,10 +51,11 @@ const SignInWithEmail: React.FC = () => {
       try {
         await dispatch(signInUser({ email, password })).unwrap()
         setSubmitting(false)
+        history.push(Routes.Account)
       } catch (err) {
         console.log(err)
       } finally {
-        history.push(Routes.Account)
+        // history.push(Routes.Account)
       }
     },
   })

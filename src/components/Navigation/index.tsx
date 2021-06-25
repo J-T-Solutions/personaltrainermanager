@@ -13,8 +13,8 @@ import {
 } from '../../features/views/viewsSlice'
 import clsx from 'clsx'
 import { useNavigationStyles } from './styles'
-import ReusableNavBtn from '../ReusableNavBtn'
 import { Routes } from '../../constants/routes'
+import { NavButton } from '../Navigation/NavButton'
 
 const Navigation: React.FC = () => {
   const classes = useNavigationStyles()
@@ -35,35 +35,27 @@ const Navigation: React.FC = () => {
     >
       <Toolbar>
         {authUser && (
-          <IconButton
-            edge="start"
-            onClick={handleOpenDrawer}
-            className={clsx(classes.menuButton, isDrawerOpen && classes.hide)}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
+          <>
+            <IconButton
+              edge="start"
+              onClick={handleOpenDrawer}
+              className={clsx(classes.menuButton, isDrawerOpen && classes.hide)}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+          </>
         )}
+
         <Typography variant="h6" className={classes.title}>
           Personal Trainer Manager
         </Typography>
-        {authUser ? (
-          <div>
+        {authUser && (
+          <>
+            <NavButton title="Dashboard" to="/dashboard" />
             <SignOutButton />
-            <ReusableNavBtn name={'Home'} redirect={Routes.Home} />
-            <ReusableNavBtn
-              variant={'outlined'}
-              name={authUser?.email}
-              redirect={Routes.Account}
-            />
-          </div>
-        ) : (
-          <div>
-            <ReusableNavBtn name={'Landing'} redirect={Routes.Landing} />
-            <ReusableNavBtn name={'Sign In'} redirect={Routes.SignIn} />
-            <ReusableNavBtn name={'Sign Up'} redirect={Routes.SignUp} />
-          </div>
+          </>
         )}
       </Toolbar>
     </AppBar>

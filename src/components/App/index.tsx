@@ -1,24 +1,25 @@
 import { Router, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import clsx from 'clsx'
 
 import Navigation from '../Navigation'
-import LandingPage from '../../pages/Landing'
-import PasswordForgetPage from '../../pages/PasswordForget'
-import HomePage from '../../pages/Home'
-import AccountPage from '../Account'
-import { Routes } from '../../constants/routes'
-import React, { useEffect } from 'react'
-import { SignOutPage } from '../../pages/SignOut'
+import AppDrawer from '../Drawer'
 import { firebaseInstance } from '../Firebase'
+import SignInPage from '../../pages/SignIn/SignInPage'
+import { SignOutPage } from '../../pages/SignOut'
+import LandingPage from '../../pages/Landing'
+import HomePage from '../../pages/Home'
+import AccountPage from '../../pages/Account'
+import { PasswordForgetPage } from '../../pages/PasswordForget'
+import { Routes } from '../../constants/routes'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { setAuthUser } from '../../features/authentication/sessionSlice'
-import SignInPage from '../../pages/SignIn/SignInPage'
-import AppDrawer from '../Drawer'
 import {
   selectShowDrawer,
   setShowDrawer,
 } from '../../features/views/viewsSlice'
+
 import { useAppStyles } from './styles'
 import { SignUpPage } from '../../pages/SignUp'
 import { createBrowserHistory } from 'history'
@@ -36,17 +37,18 @@ const App: React.FC = () => {
     }
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
-        console.log('dodane teraz' + authUser.uid)
         localStorage.setItem('authUser', JSON.stringify(authUser))
-        return function cleanup() {
-          listener()
-        }
+        dispatch(setAuthUser(authUser))
       },
       () => {
         dispatch(setShowDrawer(false))
         localStorage.removeItem('authUser')
       },
     )
+    // removes listener
+    return function cleanup() {
+      listener()
+    }
   }, [])
 
   return (
