@@ -8,9 +8,16 @@ import { Routes } from '../../constants/routes'
 const history = createBrowserHistory()
 
 interface IUserCredentials {
+  firstName: string
   email: string
   password: string
+  role: string
 }
+
+interface IDbUser extends IUserCredentials {
+  uid: string
+}
+
 export interface IUserState {
   authUser: AuthUser | null
 }
@@ -21,29 +28,36 @@ const initialState: IUserState = {
 
 export const createUser = createAsyncThunk(
   'session/createUser',
-  async (user: AuthUser) => {
-    return firebaseInstance.user(user.uid).set({
-      username: user.displayName,
+  async (user: IDbUser) => {
+    await firebaseInstance.user(user.uid).set({
+      firstName: user.firstName,
       email: user.email,
-      roles: {},
+      role: user.role,
     })
   },
 )
 
 export const signUpUser = createAsyncThunk(
   'session/signUp',
-  async (userCredentials: IUserCredentials) => {
+  async (userCredentials: IUserCredentials, { dispatch }) => {
     const { user } = await firebaseInstance.doCreateUserWithEmailAndPassword(
       userCredentials.email,
       userCredentials.password,
     )
+    const dbUserPayload: IDbUser = {
+      ...userCredentials,
+      uid: user!.uid,
+    }
+
+    dispatch(createUser(dbUserPayload))
+    console.log('###USER', user)
     return user
   },
 )
 
 export const signInUser = createAsyncThunk(
   'session/signIn',
-  async (userCredentials: IUserCredentials) => {
+  async (userCredentials: any) => {
     const { user } = await firebaseInstance.doSignInWithEmailAndPassword(
       userCredentials.email,
       userCredentials.password,
@@ -56,9 +70,10 @@ export const signInWithGoogle = createAsyncThunk(
   'session/signInWithGoogle',
   async (param, { dispatch }) => {
     const { user } = await firebaseInstance.doSignInWithGoogle()
-    if (user) {
-      dispatch(createUser(user))
-    }
+    // TODO: implement creating dbUSer for googleAuth
+    // if (user) {
+    //   dispatch(createUser(user))
+    // }
     return user
   },
 )
@@ -67,9 +82,10 @@ export const signInWithFacebook = createAsyncThunk(
   'session/signInWithFacebook',
   async (param, { dispatch }) => {
     const { user } = await firebaseInstance.doSignInWithFacebook()
-    if (user) {
-      dispatch(createUser(user))
-    }
+    // TODO: implement creating dbUSer for facebookAuth
+    // if (user) {
+    //   dispatch(createUser(user))
+    // }
     return user
   },
 )
@@ -100,6 +116,9 @@ const sessionSlice = createSlice({
       .addCase(signUpUser.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser
       })
+      // .addCase(createUser.fulfilled, (state, action) => {
+      //   state.authUser = action.payload as AuthUser
+      // })
       // user signing
       .addCase(signInUser.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser

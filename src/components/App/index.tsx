@@ -36,6 +36,7 @@ const App: React.FC = () => {
     }
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
+        console.log('dodane teraz' + authUser.uid)
         localStorage.setItem('authUser', JSON.stringify(authUser))
         return function cleanup() {
           listener()

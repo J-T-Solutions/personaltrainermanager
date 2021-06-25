@@ -2,11 +2,22 @@ import 'react-app-polyfill/ie11'
 import { FormikHelpers, useFormik } from 'formik'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks'
-import { signUpUser } from '../../features/authentication/sessionSlice'
+import {
+  createUser,
+  signUpUser,
+} from '../../features/authentication/sessionSlice'
 import { Routes } from '../../constants/routes'
-import { TextField } from '@material-ui/core'
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from '@material-ui/core'
 import { SubmitButton } from './styles'
 import * as Yup from 'yup'
+import { useState } from 'react'
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -21,12 +32,12 @@ const SignupSchema = Yup.object().shape({
 })
 
 interface IFormValues {
-  userName: string
   firstName: string
   lastName: string
   email: string
   password: string
   passwordConfirmation: string
+  role: string
 }
 
 const SignUpForm: React.FC = () => {
@@ -36,26 +47,25 @@ const SignUpForm: React.FC = () => {
     values: IFormValues,
     { setSubmitting }: FormikHelpers<IFormValues>,
   ) => {
-    const { email, password } = values
+    const { firstName, email, password, role } = values
+    console.log(role)
     try {
-      await dispatch(signUpUser({ email, password }))
+      await dispatch(signUpUser({ firstName, email, password, role }))
       setSubmitting(false)
+      history.push(Routes.Account)
     } catch (e) {
       console.log(e)
-    } finally {
-      console.log('####finally')
-      history.push(Routes.Account)
     }
   }
 
   const formik = useFormik({
     initialValues: {
-      userName: '',
       firstName: '',
       lastName: '',
       email: '',
       password: '',
       passwordConfirmation: '',
+      role: 'trainer',
     },
     onSubmit: onFormSubmit,
   })
@@ -121,6 +131,28 @@ const SignUpForm: React.FC = () => {
           helperText={formik.touched.email && formik.errors.email}
         />
 
+        <FormControl component="fieldset">
+          <FormLabel component="legend" style={{ paddingTop: '30px' }}>
+            Choose your role
+          </FormLabel>
+          <RadioGroup
+            aria-label="role"
+            name="role"
+            value={formik.values.role}
+            onChange={formik.handleChange}
+          >
+            <FormControlLabel
+              value="trainer"
+              control={<Radio />}
+              label="Trainer"
+            />
+            <FormControlLabel
+              value="customer"
+              control={<Radio />}
+              label="Customer"
+            />
+          </RadioGroup>
+        </FormControl>
         <SubmitButton
           color="primary"
           variant="contained"
