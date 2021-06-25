@@ -2,17 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { firebaseInstance } from '../../components/Firebase'
 import { RootState } from '../../store'
 import { AuthUser } from '../../interfaces'
-
-interface IUserCredentials {
-  firstName: string
-  email: string
-  password: string
-  role: string
-}
-
-interface IDbUser extends IUserCredentials {
-  uid: string
-}
+import { IDbUser, IUserCredentials, ICreateUserPayload } from './interfaces'
 
 export interface IUserState {
   authUser: AuthUser | null
@@ -35,25 +25,27 @@ export const createUser = createAsyncThunk(
 
 export const signUpUser = createAsyncThunk(
   'session/signUp',
-  async (userCredentials: IUserCredentials, { dispatch }) => {
+  async (userCredentials: ICreateUserPayload, { dispatch }) => {
     const { user } = await firebaseInstance.doCreateUserWithEmailAndPassword(
       userCredentials.email,
       userCredentials.password,
     )
-    const dbUserPayload: IDbUser = {
-      ...userCredentials,
-      uid: user!.uid,
+
+    if (user) {
+      const dbUserPayload: IDbUser = {
+        ...userCredentials,
+        uid: user.uid,
+      }
+      dispatch(createUser(dbUserPayload))
     }
 
-    dispatch(createUser(dbUserPayload))
-    console.log('###USER', user)
     return user
   },
 )
 
 export const signInUser = createAsyncThunk(
   'session/signIn',
-  async (userCredentials: any) => {
+  async (userCredentials: IUserCredentials) => {
     const { user } = await firebaseInstance.doSignInWithEmailAndPassword(
       userCredentials.email,
       userCredentials.password,
