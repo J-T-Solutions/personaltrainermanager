@@ -74,6 +74,13 @@ export const signOutUser = createAsyncThunk('session/signOut', async () => {
   return await firebaseInstance.doSignOut()
 })
 
+export const resetPassword = createAsyncThunk(
+  'session/passwordReset',
+  async (email: string) => {
+    return await firebaseInstance.doPasswordReset(email)
+  },
+)
+
 const sessionSlice = createSlice({
   name: 'session',
   initialState,

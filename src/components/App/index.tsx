@@ -1,26 +1,27 @@
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import clsx from 'clsx'
 
 import Navigation from '../Navigation'
+import AppDrawer from '../Drawer'
+import { firebaseInstance } from '../Firebase'
+import SignInPage from '../../pages/SignIn/SignInPage'
+import { SignOutPage } from '../../pages/SignOut'
 import LandingPage from '../../pages/Landing'
-import PasswordForgetPage from '../../pages/PasswordForget'
 import HomePage from '../../pages/Home'
 import AccountPage from '../../pages/Account'
+import { SignUpForm } from '../../pages/SignUp'
+import { PasswordForgetPage } from '../../pages/PasswordForget'
 import { Routes } from '../../constants/routes'
-import React, { useEffect } from 'react'
-import { SignOutPage } from '../../pages/SignOut'
-import { firebaseInstance } from '../Firebase'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { setAuthUser } from '../../features/authentication/sessionSlice'
-import SignInPage from '../../pages/SignIn/SignInPage'
-import AppDrawer from '../Drawer'
 import {
   selectShowDrawer,
   setShowDrawer,
 } from '../../features/views/viewsSlice'
+
 import { useAppStyles } from './styles'
-import { SignUpForm } from '../../pages/SignUp'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
