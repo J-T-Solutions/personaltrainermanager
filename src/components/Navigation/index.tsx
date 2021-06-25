@@ -51,10 +51,17 @@ const Navigation: React.FC = () => {
         <Typography variant="h6" className={classes.title}>
           Personal Trainer Manager
         </Typography>
-        {authUser && (
+        {authUser ? (
           <>
-            <NavButton title="Dashboard" to="/dashboard" />
+            <NavButton title="Dashboard" to={Routes.Landing} />
+            <NavButton title="Account" to={Routes.Account} />
             <SignOutButton />
+          </>
+        ) : (
+          <>
+            <NavButton title="Home" to={Routes.Home} />
+            <NavButton title="Sign Up" to={Routes.SignUp} />
+            <NavButton title="Sign In" to={Routes.SignIn} />
           </>
         )}
       </Toolbar>
