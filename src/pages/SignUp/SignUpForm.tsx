@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 import { SubmitButton } from './styles'
 import * as Yup from 'yup'
+import { Role } from 'constants/roles'
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -33,7 +34,7 @@ interface IFormValues {
   email: string
   password: string
   passwordConfirmation: string
-  role: string
+  role: Role
 }
 
 const SignUpForm: React.FC = () => {
@@ -61,7 +62,7 @@ const SignUpForm: React.FC = () => {
       email: '',
       password: '',
       passwordConfirmation: '',
-      role: 'trainer',
+      role: Role.Trainer,
     },
     onSubmit: onFormSubmit,
     validationSchema: SignupSchema,
@@ -139,12 +140,12 @@ const SignUpForm: React.FC = () => {
             onChange={formik.handleChange}
           >
             <FormControlLabel
-              value="trainer"
+              value={Role.Trainer}
               control={<Radio />}
               label="Trainer"
             />
             <FormControlLabel
-              value="customer"
+              value={Role.Customer}
               control={<Radio />}
               label="Customer"
             />
