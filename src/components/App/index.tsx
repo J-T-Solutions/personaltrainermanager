@@ -30,17 +30,16 @@ const App: React.FC = () => {
   useEffect(() => {
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
-        if (authUser) {
-          dispatch(setAuthUser(authUser))
-        }
-        return function cleanup() {
-          listener()
-        }
+        dispatch(setAuthUser(authUser))
       },
       () => {
         dispatch(setShowDrawer(false))
       },
     )
+    // removes listener
+    return function cleanup() {
+      listener()
+    }
   }, [])
 
   return (
