@@ -21,8 +21,8 @@ import {
 } from '../../features/views/viewsSlice'
 
 import { useAppStyles } from './styles'
-import { SignUpPage } from '../../pages/SignUp'
 import { createBrowserHistory } from 'history'
+import SignUpPage from '../../pages/SignUp/SignUpPage'
 
 const history = createBrowserHistory()
 
