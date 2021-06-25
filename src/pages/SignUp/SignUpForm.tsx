@@ -3,7 +3,8 @@ import { FormikHelpers, useFormik } from 'formik'
 import { useHistory } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks'
 import { signUpUser } from '../../features/authentication/sessionSlice'
-import { Routes } from '../../constants/routes'
+import { Routes, Role } from '../../constants'
+
 import {
   FormControl,
   FormControlLabel,
@@ -14,7 +15,6 @@ import {
 } from '@material-ui/core'
 import { SubmitButton } from './styles'
 import * as Yup from 'yup'
-import { Role } from 'constants/roles'
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
