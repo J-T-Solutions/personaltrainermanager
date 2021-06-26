@@ -19,12 +19,15 @@ import {
   setShowDrawer,
 } from '../../features/views/viewsSlice'
 import { useDrawerStyles } from './styles'
+import { Routes } from '../../constants/routes'
+import { useHistory } from 'react-router-dom'
 
 const AppDrawer: React.FC = () => {
   const classes = useDrawerStyles()
   const theme = useTheme()
   const dispatch = useAppDispatch()
   const isDrawerOpen = useAppSelector((state) => selectShowDrawer(state))
+  const history = useHistory()
 
   const handleDrawerClose = () => {
     dispatch(setShowDrawer(false))
@@ -51,14 +54,16 @@ const AppDrawer: React.FC = () => {
       </div>
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem
+          button
+          key={'myCustomers'}
+          onClick={() => history.push(Routes.Customers)}
+        >
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary={'My customers'} />
+        </ListItem>
       </List>
       <Divider />
       <List>

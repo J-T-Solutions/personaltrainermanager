@@ -23,5 +23,6 @@ export const useAppStyles = makeStyles((theme: Theme) =>
       }),
       marginLeft: 0,
     },
+    toolbar: theme.mixins.toolbar,
   }),
 )

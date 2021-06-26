@@ -8,4 +8,5 @@ export enum Routes {
   PasswordForget = '/pw-forget',
   PasswordResetSuccess = '/pw-reset-success',
   SingOut = '/signout',
+  Customers = '/mycustomers',
 }
