@@ -2,6 +2,7 @@ import { firebaseInstance } from '../../components/Firebase'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 import { getListOfCustomers } from '../../features/trainer/trainerSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import CustomerCard from './CustomerCard'
 
 export const MyCustomers = () => {
   const dispatch = useAppDispatch()
@@ -20,8 +21,7 @@ export const MyCustomers = () => {
 
   return (
     <div>
-      <h1>My Customers</h1>
-      {/* {customers.map(customer => <div key={customer.firstName}>)} */}
+      <CustomerCard />
     </div>
   )
 }
