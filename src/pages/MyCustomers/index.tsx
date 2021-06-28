@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { firebaseInstance } from '../../components/Firebase'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 import { getListOfCustomers } from '../../features/trainer/trainerSlice'
@@ -9,15 +10,11 @@ export const MyCustomers = () => {
   const authUser: any = useAppSelector((state) => selectAuthUser(state))
   if (!authUser) return null
 
-  const customerList = async (authUser: any) =>
-    await dispatch(getListOfCustomers(authUser))
-
-  customerList(authUser)
-
-  const customers = () => {
-    const list = useAppSelector((state) => state.trainer.customerList)
-    console.log(list)
-  }
+  useEffect(() => {
+    const customerList = (authUser: any) =>
+      dispatch(getListOfCustomers(authUser))
+    customerList(authUser)
+  }, [])
 
   return (
     <div>

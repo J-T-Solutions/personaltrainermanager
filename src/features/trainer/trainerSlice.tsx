@@ -8,25 +8,19 @@ interface IInitial {
 }
 
 const initialState: IInitial = {
-  customerList: [],
+  customerList: {},
 }
 
 export const getListOfCustomers = createAsyncThunk(
   'trainer/getListOfCustomers',
 
   async (authUser: AuthUser) => {
-    const renderedList: any = []
     // TODO: change ANY type
-    await firebaseInstance
+    return await firebaseInstance
       .user(`${authUser.uid}/customers`)
       .once('value', (snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-          const name = childSnapshot.val()
-          renderedList.push(name)
-        })
+        snapshot.val()
       })
-
-    return renderedList
   },
 )
 
@@ -59,8 +53,7 @@ const trainerSlice = createSlice({
     builder.addCase(
       getListOfCustomers.fulfilled,
       (state, action: PayloadAction<any>) => {
-        // Add user to the state array
-        state.customerList.push(action.payload)
+        state.customerList = action.payload
       },
     )
   },
