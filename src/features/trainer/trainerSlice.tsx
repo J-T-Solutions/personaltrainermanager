@@ -2,13 +2,17 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { firebaseInstance } from '../../components/Firebase'
 import { AuthUser } from '../../interfaces'
 import { nanoid } from '@reduxjs/toolkit'
+import { ICustomerSummary } from 'features/customer/interfaces'
+import { RootState } from 'store'
 
-interface IInitial {
-  customerList: any
+interface ICustomerState {
+  customerList: { [key: string]: ICustomerSummary }
+  summaryLoading: boolean
 }
 
-const initialState: IInitial = {
+const initialState: ICustomerState = {
   customerList: {},
+  summaryLoading: true,
 }
 
 export const getListOfCustomers = createAsyncThunk(
@@ -50,13 +54,24 @@ const trainerSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
-    builder.addCase(
-      getListOfCustomers.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.customerList = action.payload
-      },
-    )
+    builder
+      // .addCase(
+      //   getListOfCustomers.pending,
+      //   (state, action: PayloadAction<any>) => {
+      //     state.loading = true
+      //   },
+      // )
+      .addCase(
+        getListOfCustomers.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.customerList = action.payload
+          state.summaryLoading = false
+        },
+      )
   },
 })
+
+export const selectCustomersSummaryLoading = (state: RootState): boolean =>
+  state.trainer.summaryLoading
 
 export default trainerSlice.reducer

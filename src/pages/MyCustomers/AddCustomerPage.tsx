@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 })
 
-export const AddCustomerPage = () => {
+export const AddCustomerPage: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
   const history = useHistory()
