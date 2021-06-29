@@ -15,12 +15,12 @@ export const getListOfCustomers = createAsyncThunk(
   'trainer/getListOfCustomers',
 
   async (authUser: AuthUser) => {
-    // TODO: change ANY type
-    return await firebaseInstance
+    const list = await firebaseInstance
       .user(`${authUser.uid}/customers`)
       .once('value', (snapshot) => {
         snapshot.val()
       })
+    return list.val()
   },
 )
 
