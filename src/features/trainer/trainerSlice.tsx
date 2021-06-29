@@ -6,12 +6,12 @@ import { ICustomerSummary } from 'features/customer/interfaces'
 import { RootState } from 'store'
 
 interface ICustomerState {
-  customerList: { [key: string]: ICustomerSummary }
+  customerList: ICustomerSummary[]
   summaryLoading: boolean
 }
 
 const initialState: ICustomerState = {
-  customerList: {},
+  customerList: [],
   summaryLoading: true,
 }
 
@@ -24,7 +24,16 @@ export const getListOfCustomers = createAsyncThunk(
       .once('value', (snapshot) => {
         snapshot.val()
       })
-    return list.val()
+
+    const customersRaw = list.val()
+
+    const customers = Object.keys(customersRaw).map((id) => {
+      return {
+        id,
+        ...customersRaw[id],
+      }
+    })
+    return customers
   },
 )
 
@@ -54,24 +63,20 @@ const trainerSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
-    builder
-      // .addCase(
-      //   getListOfCustomers.pending,
-      //   (state, action: PayloadAction<any>) => {
-      //     state.loading = true
-      //   },
-      // )
-      .addCase(
-        getListOfCustomers.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.customerList = action.payload
-          state.summaryLoading = false
-        },
-      )
+    builder.addCase(
+      getListOfCustomers.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.customerList = action.payload
+        state.summaryLoading = false
+      },
+    )
   },
 })
 
 export const selectCustomersSummaryLoading = (state: RootState): boolean =>
   state.trainer.summaryLoading
+
+export const selectCustomersSummary = (state: RootState): ICustomerSummary[] =>
+  state.trainer.customerList
 
 export default trainerSlice.reducer

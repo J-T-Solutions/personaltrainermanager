@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import sessionReducer from './features/authentication/sessionSlice'
 import viewsReducer from './features/views/viewsSlice'
 import trainerReducer from './features/trainer/trainerSlice'
-import customerReducer from './features/trainer/trainerSlice'
+import customerReducer from './features/customer/customerSlice'
 
 export const store = configureStore({
   reducer: {
