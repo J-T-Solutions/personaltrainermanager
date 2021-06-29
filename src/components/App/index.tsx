@@ -12,6 +12,8 @@ import LandingPage from '../../pages/Landing'
 import HomePage from '../../pages/Home'
 import AccountPage from '../../pages/Account'
 import { PasswordForgetPage } from '../../pages/PasswordForget'
+import MyCustomers from '../../pages/MyCustomers'
+import SignUpPage from '../../pages/SignUp/SignUpPage'
 import { Routes } from '../../constants/routes'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { setAuthUser } from '../../features/authentication/sessionSlice'
@@ -22,8 +24,8 @@ import {
 
 import { useAppStyles } from './styles'
 import { createBrowserHistory } from 'history'
-import SignUpPage from '../../pages/SignUp/SignUpPage'
 import { LocalStorageKey } from '../../constants/localStorage'
+import { AddCustomerPage } from 'pages/MyCustomers/AddCustomerPage'
 
 const history = createBrowserHistory()
 
@@ -62,11 +64,13 @@ const App: React.FC = () => {
       <div className={classes.root}>
         <Navigation />
         <AppDrawer />
+
         <main
           className={clsx(classes.content, {
             [classes.contentShift]: isDrawerOpen,
           })}
         >
+          <div className={classes.toolbar}></div>
           <Container maxWidth="lg">
             <Route exact path={Routes.Landing} component={LandingPage} />
             <Route path={Routes.SignUp} component={SignUpPage} />
@@ -78,6 +82,8 @@ const App: React.FC = () => {
             <Route path={Routes.Home} component={HomePage} />
             <Route path={Routes.Account} component={AccountPage} />
             <Route path={Routes.SingOut} component={SignOutPage} />
+            <Route path={Routes.Customers} component={MyCustomers} />
+            <Route path={Routes.AddCustomerPage} component={AddCustomerPage} />
           </Container>
         </main>
       </div>
