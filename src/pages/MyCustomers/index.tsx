@@ -38,7 +38,6 @@ export const MyCustomers: React.FC = () => {
           rows={customers}
           columns={columns}
           pageSize={5}
-          //checkboxSelection
           disableSelectionOnClick
         />
       </div>

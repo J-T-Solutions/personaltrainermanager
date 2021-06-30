@@ -1,13 +1,8 @@
-import { Routes } from '../../constants/routes'
 import { useAppSelector } from '../../hooks'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 import { firebaseInstance } from '../../components/Firebase'
 
-interface ChildComponentProps {
-  history: any
-}
-
-const Account: React.FC<ChildComponentProps> = ({ history }) => {
+const Account: React.FC = () => {
   const authUser: any = useAppSelector((state) => selectAuthUser(state))
 
   if (!authUser) return null
@@ -21,11 +16,6 @@ const Account: React.FC<ChildComponentProps> = ({ history }) => {
     )
 
   userRole(authUser)
-
-  if (!authUser) {
-    history.push(Routes.SignIn)
-    console.log('non-authorized')
-  }
 
   return (
     <div>

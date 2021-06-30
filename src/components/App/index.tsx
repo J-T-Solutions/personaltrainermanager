@@ -1,11 +1,9 @@
 import { Router, Route } from 'react-router-dom'
-import React, { useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import clsx from 'clsx'
 
 import Navigation from '../Navigation'
 import AppDrawer from '../Drawer'
-import { firebaseInstance } from '../Firebase'
 import SignInPage from '../../pages/SignIn/SignInPage'
 import { SignOutPage } from '../../pages/SignOut'
 import LandingPage from '../../pages/Landing'
@@ -15,49 +13,24 @@ import { PasswordForgetPage } from '../../pages/PasswordForget'
 import MyCustomers from '../../pages/MyCustomers'
 import SignUpPage from '../../pages/SignUp/SignUpPage'
 import { Routes } from '../../constants/routes'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { setAuthUser } from '../../features/authentication/sessionSlice'
-import {
-  selectShowDrawer,
-  setShowDrawer,
-} from '../../features/views/viewsSlice'
+import { useAppSelector } from '../../hooks'
+import { selectShowDrawer } from '../../features/views/viewsSlice'
 
 import { useAppStyles } from './styles'
 import { createBrowserHistory } from 'history'
-import { LocalStorageKey } from '../../constants/localStorage'
 import { AddCustomerPage } from 'pages/MyCustomers/AddCustomerPage'
+import useAuth from 'hooks/useAuth'
+import { PrivateRoute } from 'components/PrivateRoute'
 
 const history = createBrowserHistory()
 
 const App: React.FC = () => {
-  const dispatch = useAppDispatch()
   const isDrawerOpen = useAppSelector((state) => selectShowDrawer(state))
   const classes = useAppStyles()
 
-  useEffect(() => {
-    const authUserFromLocalStorage = localStorage.getItem(
-      LocalStorageKey.AuthUser,
-    )
-
-    if (authUserFromLocalStorage) {
-      dispatch(setAuthUser(JSON.parse(authUserFromLocalStorage)))
-    }
-
-    const listener = firebaseInstance.onAuthUserListener(
-      (authUser) => {
-        localStorage.setItem(LocalStorageKey.AuthUser, JSON.stringify(authUser))
-        dispatch(setAuthUser(authUser))
-      },
-      () => {
-        dispatch(setShowDrawer(false))
-        localStorage.removeItem(LocalStorageKey.AuthUser)
-      },
-    )
-    // removes listener
-    return function cleanup() {
-      listener()
-    }
-  }, [])
+  // TODO: move components and pages to features folders
+  // TODO: serialise authUser
+  useAuth()
 
   return (
     <Router history={history}>
@@ -80,10 +53,13 @@ const App: React.FC = () => {
               component={PasswordForgetPage}
             />
             <Route path={Routes.Home} component={HomePage} />
-            <Route path={Routes.Account} component={AccountPage} />
+            <PrivateRoute path={Routes.Account} component={AccountPage} />
             <Route path={Routes.SingOut} component={SignOutPage} />
-            <Route path={Routes.Customers} component={MyCustomers} />
-            <Route path={Routes.AddCustomerPage} component={AddCustomerPage} />
+            <PrivateRoute path={Routes.Customers} component={MyCustomers} />
+            <PrivateRoute
+              path={Routes.AddCustomerPage}
+              component={AddCustomerPage}
+            />
           </Container>
         </main>
       </div>

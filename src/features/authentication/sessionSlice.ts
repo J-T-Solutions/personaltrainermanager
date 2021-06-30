@@ -109,9 +109,9 @@ const sessionSlice = createSlice({
       //   state.authUser = action.payload as AuthUser
       // })
       // user signing
-      .addCase(signInUser.fulfilled, (state, action) => {
-        state.authUser = action.payload as AuthUser
-      })
+      // .addCase(signInUser.fulfilled, (state, action) => {
+      //   state.authUser = action.payload as AuthUser
+      // })
       .addCase(signInWithGoogle.fulfilled, (state, action) => {
         state.authUser = action.payload as AuthUser
       })
