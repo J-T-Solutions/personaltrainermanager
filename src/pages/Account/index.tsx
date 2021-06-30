@@ -1,15 +1,18 @@
 import { useAppSelector } from '../../hooks'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 import { firebaseInstance } from '../../components/Firebase'
+import { IAuthUser } from 'features/authentication/interfaces'
 
 const Account: React.FC = () => {
-  const authUser: any = useAppSelector((state) => selectAuthUser(state))
+  // TODO: refactor this
+  const authUser = useAppSelector((state) => selectAuthUser(state))
 
   if (!authUser) return null
 
   let accountRole
-  const userRole = (userName: any) =>
-    firebaseInstance.user(userName.uid).on(
+  const userRole = (authUser: IAuthUser) =>
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    firebaseInstance.user(authUser.id!).on(
       'value',
       (data) => (accountRole = data.val().role),
       (err) => console.log(err),

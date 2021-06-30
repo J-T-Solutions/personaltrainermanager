@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { firebaseInstance } from '../../components/Firebase'
-import { AuthUser } from '../../interfaces'
 import { nanoid } from '@reduxjs/toolkit'
 import { ICustomerSummary } from 'features/customer/interfaces'
 import { RootState } from 'store'
+import { IAuthUser } from 'features/authentication/interfaces'
 
 interface ICustomerState {
   customerList: ICustomerSummary[]
@@ -18,9 +18,9 @@ const initialState: ICustomerState = {
 export const getListOfCustomers = createAsyncThunk(
   'trainer/getListOfCustomers',
 
-  async (authUser: AuthUser) => {
+  async (authUser: IAuthUser) => {
     const list = await firebaseInstance
-      .user(`${authUser.uid}/customers`)
+      .user(`${authUser.id}/customers`)
       .once('value', (snapshot) => {
         snapshot.val()
       })

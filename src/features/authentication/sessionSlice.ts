@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { firebaseInstance } from '../../components/Firebase'
 import { RootState } from '../../store'
-import { AuthUser } from '../../interfaces'
-import { IDbUser, IUserCredentials, ICreateUserPayload } from './interfaces'
+import { serialiseUser } from './helpers'
+import {
+  IDbUser,
+  IUserCredentials,
+  ICreateUserPayload,
+  IAuthUser,
+} from './interfaces'
 
 export interface IUserState {
-  authUser: AuthUser | null
+  authUser: IAuthUser | null
 }
 
 const initialState: IUserState = {
@@ -25,21 +30,20 @@ export const createUser = createAsyncThunk(
 
 export const signUpUser = createAsyncThunk(
   'session/signUp',
-  async (userCredentials: ICreateUserPayload, { dispatch }) => {
+  async (userData: ICreateUserPayload, { dispatch }) => {
     const { user } = await firebaseInstance.doCreateUserWithEmailAndPassword(
-      userCredentials.email,
-      userCredentials.password,
+      userData.email,
+      userData.password,
     )
 
     if (user) {
       const dbUserPayload: IDbUser = {
-        ...userCredentials,
+        ...userData,
         uid: user.uid,
       }
       dispatch(createUser(dbUserPayload))
+      return serialiseUser(user)
     }
-
-    return user
   },
 )
 
@@ -62,7 +66,9 @@ export const signInWithGoogle = createAsyncThunk(
     // if (user) {
     //   dispatch(createUser(user))
     // }
-    return user
+    if (user) {
+      return serialiseUser(user)
+    }
   },
 )
 
@@ -74,7 +80,9 @@ export const signInWithFacebook = createAsyncThunk(
     // if (user) {
     //   dispatch(createUser(user))
     // }
-    return user
+    if (user) {
+      return serialiseUser(user)
+    }
   },
 )
 
@@ -93,7 +101,7 @@ const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setAuthUser: (state, action: PayloadAction<AuthUser | null>) => {
+    setAuthUser: (state, action: PayloadAction<IAuthUser | null>) => {
       state.authUser = action.payload
     },
     setUserLogOutState: (state) => {
@@ -103,7 +111,7 @@ const sessionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signUpUser.fulfilled, (state, action) => {
-        state.authUser = action.payload as AuthUser
+        state.authUser = action.payload as IAuthUser
       })
       // .addCase(createUser.fulfilled, (state, action) => {
       //   state.authUser = action.payload as AuthUser
@@ -113,10 +121,10 @@ const sessionSlice = createSlice({
       //   state.authUser = action.payload as AuthUser
       // })
       .addCase(signInWithGoogle.fulfilled, (state, action) => {
-        state.authUser = action.payload as AuthUser
+        state.authUser = action.payload as IAuthUser
       })
       .addCase(signInWithFacebook.fulfilled, (state, action) => {
-        state.authUser = action.payload as AuthUser
+        state.authUser = action.payload as IAuthUser
       })
       .addCase(signInWithGoogle.rejected, () => {
         // TODO: throw error or rejected action
@@ -135,5 +143,5 @@ export const { setAuthUser, setUserLogOutState } = sessionSlice.actions
 
 export default sessionSlice.reducer
 
-export const selectAuthUser = (state: RootState): AuthUser | null =>
+export const selectAuthUser = (state: RootState): IAuthUser | null =>
   state.session.authUser

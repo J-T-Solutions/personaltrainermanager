@@ -32,7 +32,7 @@ export const AddCustomerPage: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
   const history = useHistory()
-  const uid = useAppSelector((state) => selectAuthUser(state))?.uid
+  const uid = useAppSelector((state) => selectAuthUser(state))?.id
 
   const onFormSubmit = async (
     values: any,

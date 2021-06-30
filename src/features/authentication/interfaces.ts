@@ -1,3 +1,8 @@
+export interface IAuthUser {
+  email: string | null
+  id: string | null
+}
+
 export interface ICreateUserPayload {
   firstName: string
   email: string

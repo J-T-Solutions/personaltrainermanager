@@ -2,7 +2,6 @@ import { Typography } from '@material-ui/core'
 import { DataGrid } from '@material-ui/data-grid'
 import { columns } from './tableColumns'
 
-import { AuthUser } from 'interfaces'
 import { useEffect } from 'react'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
 import {
@@ -11,6 +10,7 @@ import {
   selectCustomersSummaryLoading,
 } from '../../features/trainer/trainerSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { IAuthUser } from 'features/authentication/interfaces'
 
 export const MyCustomers: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -20,7 +20,7 @@ export const MyCustomers: React.FC = () => {
     selectCustomersSummaryLoading(state),
   )
 
-  const getCustomers = async (authUser: AuthUser) => {
+  const getCustomers = async (authUser: IAuthUser) => {
     return await dispatch(getListOfCustomers(authUser))
   }
 

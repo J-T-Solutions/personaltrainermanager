@@ -4,6 +4,7 @@ import { setAuthUser } from 'features/authentication/sessionSlice'
 import { setShowDrawer } from 'features/views/viewsSlice'
 import { useAppDispatch } from 'hooks'
 import { LocalStorageKey } from 'constants/localStorage'
+import { serialiseUser } from 'features/authentication/helpers'
 
 export default function (): void {
   const dispatch = useAppDispatch()
@@ -20,7 +21,7 @@ export default function (): void {
     const listener = firebaseInstance.onAuthUserListener(
       (authUser) => {
         localStorage.setItem(LocalStorageKey.AuthUser, JSON.stringify(authUser))
-        dispatch(setAuthUser(authUser))
+        dispatch(setAuthUser(serialiseUser(authUser)))
       },
       () => {
         dispatch(setShowDrawer(false))
