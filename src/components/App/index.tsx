@@ -29,7 +29,6 @@ const App: React.FC = () => {
   const classes = useAppStyles()
 
   // TODO: move components and pages to features folders
-  // TODO: serialise authUser
   useAuth()
 
   return (
@@ -53,11 +52,11 @@ const App: React.FC = () => {
               component={PasswordForgetPage}
             />
             <Route path={Routes.Home} component={HomePage} />
-            <PrivateRoute path={Routes.Account} component={AccountPage} />
             <Route path={Routes.SingOut} component={SignOutPage} />
+            <PrivateRoute path={Routes.Account} component={AccountPage} />
             <PrivateRoute path={Routes.Customers} component={MyCustomers} />
             <PrivateRoute
-              path={Routes.AddCustomerPage}
+              path={Routes.AddCustomer}
               component={AddCustomerPage}
             />
           </Container>

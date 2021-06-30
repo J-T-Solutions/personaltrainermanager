@@ -37,7 +37,7 @@ export default function OutlinedCard() {
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <CardActions className={classes.btn}>
-          <Button onClick={() => history.push(Routes.AddCustomerPage)}>
+          <Button onClick={() => history.push(Routes.AddCustomer)}>
             <Typography className={classes.pos} color="textSecondary">
               Add customer
             </Typography>

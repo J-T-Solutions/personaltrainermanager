@@ -32,29 +32,31 @@ export const AddCustomerPage: React.FC = () => {
   const classes = useStyles()
   const dispatch = useAppDispatch()
   const history = useHistory()
-  const uid = useAppSelector((state) => selectAuthUser(state))?.id
+  const userId = useAppSelector((state) => selectAuthUser(state))?.id
 
   const onFormSubmit = async (
     values: any,
     { setSubmitting }: FormikHelpers<any>,
   ) => {
     const { firstName, lastName, gender, age, weight, description } = values
-    try {
-      await dispatch(
-        addCustomerToDb({
-          uid,
-          firstName,
-          lastName,
-          gender,
-          age,
-          weight,
-          description,
-        }),
-      )
-      setSubmitting(false)
-      history.push(Routes.Customers)
-    } catch (e) {
-      console.log(e)
+    if (userId) {
+      try {
+        await dispatch(
+          addCustomerToDb({
+            trainerId: userId,
+            firstName,
+            lastName,
+            gender,
+            age,
+            weight,
+            description,
+          }),
+        )
+        setSubmitting(false)
+        history.push(Routes.Customers)
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 

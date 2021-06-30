@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { firebaseInstance } from '../../components/Firebase'
 import { nanoid } from '@reduxjs/toolkit'
-import { ICustomerSummary } from 'features/customer/interfaces'
+import {
+  ICreateCustomerPayload,
+  ICustomerSummary,
+} from 'features/customer/interfaces'
 import { RootState } from 'store'
 import { IAuthUser } from 'features/authentication/interfaces'
 
@@ -39,11 +42,11 @@ export const getListOfCustomers = createAsyncThunk(
 
 export const addCustomerToDb = createAsyncThunk(
   'trainer/addCustomerToDb',
-  async (customer: any) => {
+  async (customer: ICreateCustomerPayload) => {
     // TODO: change any type
     const id = nanoid()
     // TODO: change nanoid to normal entry numeration (1, 2, 3, ...)
-    await firebaseInstance.user(`${customer.uid}/customers/${id}`).set({
+    await firebaseInstance.user(`${customer.trainerId}/customers/${id}`).set({
       // in fact its trainer uid   ^^^^^^^^^^^^
       firstName: customer.firstName,
       lastName: customer.lastName,

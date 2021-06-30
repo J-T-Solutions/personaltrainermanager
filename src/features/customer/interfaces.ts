@@ -9,5 +9,7 @@ export interface ICustomerSummary {
 }
 
 export interface ICustomer extends ICustomerSummary {
-  note: string
+  trainerId: string
 }
+
+export type ICreateCustomerPayload = Omit<ICustomer, 'id'>

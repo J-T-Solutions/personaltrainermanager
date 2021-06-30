@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { DataGrid } from '@material-ui/data-grid'
 import { columns } from './tableColumns'
 
@@ -11,6 +11,7 @@ import {
 } from '../../features/trainer/trainerSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { IAuthUser } from 'features/authentication/interfaces'
+import { AddCustomerButton } from './AddCustomerButton'
 
 export const MyCustomers: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -31,7 +32,16 @@ export const MyCustomers: React.FC = () => {
 
   return (
     <>
-      <Typography>Customers</Typography>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
+        <Typography variant="h5">Customers</Typography>
+        <AddCustomerButton />
+      </Grid>
+
       <div style={{ height: 400, width: '100%' }}>
         <DataGrid
           loading={isLoadingCustomersSummary}
