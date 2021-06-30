@@ -11,7 +11,7 @@ import {
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
+import PeopleIcon from '@material-ui/icons/People'
 import MailIcon from '@material-ui/icons/Mail'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import {
@@ -60,21 +60,21 @@ const AppDrawer: React.FC = () => {
           onClick={() => history.push(Routes.Customers)}
         >
           <ListItemIcon>
-            <InboxIcon />
+            <PeopleIcon />
           </ListItemIcon>
           <ListItemText primary={'My customers'} />
         </ListItem>
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {/* {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
-        ))}
+        ))} */}
       </List>
     </Drawer>
   )

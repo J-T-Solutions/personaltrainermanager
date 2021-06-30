@@ -1,5 +1,5 @@
 import { Button, createStyles, makeStyles, Theme } from '@material-ui/core'
-import PortraitIcon from '@material-ui/icons/Portrait'
+import PersonAdd from '@material-ui/icons/PersonAdd'
 import { Routes } from 'constants/routes'
 import { useHistory } from 'react-router-dom'
 
@@ -20,7 +20,7 @@ export const AddCustomerButton: React.FC = () => {
       variant="outlined"
       color="primary"
       className={classes.button}
-      startIcon={<PortraitIcon />}
+      startIcon={<PersonAdd />}
       onClick={() => history.push(Routes.AddCustomer)}
     >
       Add Customer
