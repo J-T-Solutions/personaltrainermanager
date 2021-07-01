@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: refactor to function component
 import React, { Component } from 'react'
-import { withFirebase } from '../../components/Firebase'
 
 const INITIAL_STATE = {
   passwordOne: '',
@@ -75,4 +75,4 @@ class PasswordChangeForm extends Component<IProps, IState> {
   }
 }
 
-export default withFirebase(PasswordChangeForm)
+export default PasswordChangeForm

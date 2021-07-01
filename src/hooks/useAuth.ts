@@ -1,4 +1,4 @@
-import { firebaseInstance } from 'components/Firebase'
+import { firebaseInstance } from 'services/Firebase'
 import { useEffect } from 'react'
 import { setAuthUser } from 'features/authentication/sessionSlice'
 import { setShowDrawer } from 'features/views/viewsSlice'

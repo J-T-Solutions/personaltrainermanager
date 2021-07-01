@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks'
 import { selectAuthUser } from '../../features/authentication/sessionSlice'
-import { firebaseInstance } from '../../components/Firebase'
+import { firebaseInstance } from '../../services/Firebase'
 import { IAuthUser } from 'features/authentication/interfaces'
 
 const Account: React.FC = () => {

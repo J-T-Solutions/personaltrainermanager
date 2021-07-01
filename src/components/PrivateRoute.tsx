@@ -1,10 +1,11 @@
 import { Routes } from 'constants/routes'
 import { selectAuthUser } from 'features/authentication/sessionSlice'
 import { useAppSelector } from 'hooks'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 export const PrivateRoute: React.FC<{
-  component: any
+  component: React.FC
   path: string
   exact?: boolean
 }> = ({ component, path, exact = false }) => {

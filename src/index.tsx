@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 
 import App from './components/App'
 import './index.css'
-import { FirebaseContext, firebaseInstance } from './components/Firebase'
 import reportWebVitals from './reportWebVitals'
 
 import { store } from './store'
@@ -15,9 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={appTheme}>
       <Provider store={store}>
-        <FirebaseContext.Provider value={firebaseInstance}>
-          <App />
-        </FirebaseContext.Provider>
+        <App />
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { firebaseInstance } from '../../components/Firebase'
+import { firebaseInstance } from '../../services/Firebase'
 import { nanoid } from '@reduxjs/toolkit'
 import {
   ICreateCustomerPayload,
