@@ -107,6 +107,9 @@ class Firebase {
   user = (uid: string | number) => this.db.ref(`users/${uid}`)
   users = () => this.db.ref('users')
   userUid = () => this.auth.currentUser
+  friends = (uid: string) => this.db.ref(`friends/${uid}`)
+  chatMessages = (chatId: string) => this.db.ref(`chatMessages/${chatId}`)
+  userChats = (user1: string) => this.db.ref(`userChats/${user1}`)
 }
 
 export const firebaseInstance = new Firebase()

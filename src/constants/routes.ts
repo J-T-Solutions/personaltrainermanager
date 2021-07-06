@@ -10,4 +10,5 @@ export enum Routes {
   SingOut = '/signout',
   Customers = '/mycustomers',
   AddCustomerPage = '/addcustomerpage',
+  Chat = '/chat',
 }

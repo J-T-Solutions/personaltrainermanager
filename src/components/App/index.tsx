@@ -26,6 +26,7 @@ import { useAppStyles } from './styles'
 import { createBrowserHistory } from 'history'
 import { LocalStorageKey } from '../../constants/localStorage'
 import { AddCustomerPage } from 'pages/MyCustomers/AddCustomerPage'
+import Chat from 'pages/Chat'
 
 const history = createBrowserHistory()
 
@@ -84,6 +85,7 @@ const App: React.FC = () => {
             <Route path={Routes.SingOut} component={SignOutPage} />
             <Route path={Routes.Customers} component={MyCustomers} />
             <Route path={Routes.AddCustomerPage} component={AddCustomerPage} />
+            <Route path={Routes.Chat} component={Chat} />
           </Container>
         </main>
       </div>

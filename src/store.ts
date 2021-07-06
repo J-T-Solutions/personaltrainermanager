@@ -3,6 +3,7 @@ import sessionReducer from './features/authentication/sessionSlice'
 import viewsReducer from './features/views/viewsSlice'
 import trainerReducer from './features/trainer/trainerSlice'
 import customerReducer from './features/customer/customerSlice'
+import chatReducer from './features/chat/chatSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     views: viewsReducer,
     trainer: trainerReducer,
     customer: customerReducer,
+    chat: chatReducer,
   },
 })
 

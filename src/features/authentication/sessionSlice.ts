@@ -6,10 +6,12 @@ import { IDbUser, IUserCredentials, ICreateUserPayload } from './interfaces'
 
 export interface IUserState {
   authUser: AuthUser | null
+  friendsList: any
 }
 
 const initialState: IUserState = {
   authUser: null,
+  friendsList: {},
 }
 
 export const createUser = createAsyncThunk(
@@ -20,6 +22,16 @@ export const createUser = createAsyncThunk(
       email: user.email,
       role: user.role,
     })
+  },
+)
+
+export const getListOfFriends = createAsyncThunk(
+  'session/getListOfFriends',
+  async (authUser: AuthUser) => {
+    const list = await firebaseInstance
+      .friends(authUser.uid)
+      .once('value', (snapshot) => snapshot.val())
+    return list.val()
   },
 )
 
@@ -127,6 +139,9 @@ const sessionSlice = createSlice({
       // createUser
       .addCase(createUser.rejected, () => {
         // TODO: throw error or rejected action
+      })
+      .addCase(getListOfFriends.fulfilled, (state, action) => {
+        state.friendsList = action.payload
       })
   },
 })
